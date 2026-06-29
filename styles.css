@@ -2085,11 +2085,112 @@ body.preview-mobile #sidebar:not(.hidden) {
     }
 }
 
+
 /* =========================================================
-   FIX FINAL MOBILE — EcoRevisión RD
+   MOBILE CLEAN FIX — EcoRevisión RD
+   Único bloque final para vista móvil estable.
    ========================================================= */
 
-/* En móvil no debe aparecer el botón flotante de tema */
+body.preview-mobile {
+  min-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+/* Marco del móvil */
+body.preview-mobile #app {
+  position: fixed !important;
+  top: 24px !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translateX(-50%) !important;
+  width: min(430px, calc(100vw - 32px)) !important;
+  height: calc(100vh - 48px) !important;
+  min-height: 0 !important;
+  max-height: calc(100vh - 48px) !important;
+  display: flex !important;
+  background: var(--color-bg-body) !important;
+  border-radius: 32px !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+}
+
+/* Contenido scrollable dentro del móvil */
+body.preview-mobile #main-content {
+  position: absolute !important;
+  inset: 0 0 82px 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 52px 16px 24px 16px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scroll-behavior: auto !important;
+}
+
+/* Evitar saltos de animación en móvil */
+body.preview-mobile .view,
+body.preview-mobile .view.active {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+body.preview-mobile .view:not(.active) {
+  display: none !important;
+}
+
+body.preview-mobile .view.active {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Inspección: bajarla un poco y compactarla sin romper el scroll */
+body.preview-mobile #inspeccion.view.active {
+  padding-top: 22px !important;
+  padding-bottom: 120px !important;
+}
+
+body.preview-mobile #inspeccion .view-header {
+  margin-bottom: 22px !important;
+}
+
+body.preview-mobile #inspeccion .bento-grid {
+  gap: 16px !important;
+}
+
+body.preview-mobile #inspeccion .bento-item {
+  padding: 16px !important;
+}
+
+body.preview-mobile #inspeccion .v-image {
+  height: 145px !important;
+}
+
+/* Pasos de inspección con aire abajo para que no se escondan */
+body.preview-mobile #insp-step-1,
+body.preview-mobile #insp-step-2,
+body.preview-mobile #insp-step-3 {
+  padding-bottom: 115px !important;
+}
+
+/* Barra inferior */
+body.preview-mobile #sidebar:not(.hidden) {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  top: auto !important;
+  width: 100% !important;
+  height: 82px !important;
+  z-index: 9999 !important;
+  transform: none !important;
+  border-radius: 0 0 32px 32px !important;
+}
+
+/* Ocultar botón flotante de tema en móvil */
 body.preview-mobile #themeToggle,
 body.preview-mobile .fab-theme,
 body.preview-mobile .theme-fab {
@@ -2098,77 +2199,23 @@ body.preview-mobile .theme-fab {
   pointer-events: none !important;
 }
 
-/* Todo dentro del marco móvil */
-body.preview-mobile #app,
-body.preview-mobile .app {
-  overflow: hidden !important;
-  position: relative !important;
-  isolation: isolate !important;
-}
-
-/* Más espacio inferior para evitar que la barra tape contenido */
-body.preview-mobile #main-content,
-body.preview-mobile #main,
-body.preview-mobile main {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  padding-bottom: 220px !important;
-}
-
-/* Inspección necesita más aire porque es la pantalla más larga */
-body.preview-mobile #inspeccion,
-body.preview-mobile section#inspeccion.view,
-body.preview-mobile section#inspeccion.view.active {
-  padding-top: 30px !important;
-  padding-bottom: 260px !important;
-}
-
-body.preview-mobile #insp-step-1,
-body.preview-mobile #insp-step-2,
-body.preview-mobile #insp-step-3 {
-  padding-bottom: 210px !important;
-}
-
-/* La última tarjeta no debe quedar escondida detrás del menú inferior */
-body.preview-mobile #inspeccion > *:last-child,
-body.preview-mobile #inspeccion .bento-item:last-child,
-body.preview-mobile #inspeccion .card:last-child,
-body.preview-mobile #inspeccion .surface:last-child {
-  margin-bottom: 190px !important;
-}
-
-/* Barra inferior pegada abajo */
-body.preview-mobile #sidebar:not(.hidden),
-body.preview-mobile .sidebar:not(.hidden) {
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  top: auto !important;
-  height: 82px !important;
-  z-index: 9999 !important;
-  transform: none !important;
-}
-
 /* Menú, modal y notificaciones dentro del móvil */
 body.preview-mobile #mobile-menu,
 body.preview-mobile #add-vehicle-modal,
 body.preview-mobile .mobile-menu-overlay,
-body.preview-mobile .modal-overlay,
-body.preview-mobile #menu,
-body.preview-mobile #modal {
+body.preview-mobile .modal-overlay {
   position: absolute !important;
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
   max-width: 100% !important;
   max-height: 100% !important;
+  border-radius: 32px !important;
+  overflow: hidden !important;
 }
 
 body.preview-mobile #toast-container,
-body.preview-mobile .toast-container,
-body.preview-mobile #toastWrap,
-body.preview-mobile .toast-wrap {
+body.preview-mobile .toast-container {
   position: absolute !important;
   left: 14px !important;
   right: 14px !important;
@@ -2178,24 +2225,23 @@ body.preview-mobile .toast-wrap {
   max-width: none !important;
 }
 
-/* =========================================================
-   AJUSTE FINAL: bajar un poco la vista de inspección móvil
-   ========================================================= */
+@media (max-width: 520px) {
+  body.preview-mobile #app {
+    top: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+  }
 
-body.preview-mobile #inspeccion.view.active,
-body.preview-mobile section#inspeccion.view.active {
-  padding-top: 58px !important;
-}
+  body.preview-mobile #sidebar:not(.hidden) {
+    border-radius: 0 !important;
+  }
 
-/* Mantener aire abajo para que no se tape con la barra inferior */
-body.preview-mobile #inspeccion {
-  padding-bottom: 280px !important;
-}
-
-/* Asegurar que el scroll de inspección empiece limpio */
-body.preview-mobile.inspection-screen #main-content,
-body.preview-mobile.inspection-screen #main,
-body.preview-mobile.inspection-screen main {
-  padding-top: 34px !important;
-  padding-bottom: 230px !important;
+  body.preview-mobile #mobile-menu,
+  body.preview-mobile #add-vehicle-modal,
+  body.preview-mobile .mobile-menu-overlay,
+  body.preview-mobile .modal-overlay {
+    border-radius: 0 !important;
+  }
 }

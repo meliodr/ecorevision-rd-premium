@@ -127,19 +127,29 @@ const app = {
 
     // Trigger Anime.js for a specific view
     animateView: function(viewElement) {
-        if (typeof anime === 'undefined' || !viewElement) return;
+        if (!viewElement) return;
+
+        if (document.body.classList.contains('preview-mobile')) {
+            viewElement.querySelectorAll('.bento-item, .form-group, .btn-primary, .avatar, .stat-card-accent').forEach(el => {
+                el.style.opacity = '';
+                el.style.transform = '';
+            });
+            return;
+        }
+
+        if (typeof anime === 'undefined') return;
 
         const bentoItems = viewElement.querySelectorAll('.bento-item, .form-group, .btn-primary, .avatar, .stat-card-accent');
         if (bentoItems.length === 0) return;
 
-        anime.set(bentoItems, { translateY: 20, opacity: 0 });
+        anime.set(bentoItems, { translateY: 12, opacity: 0 });
 
         anime({
             targets: bentoItems,
             translateY: 0,
             opacity: 1,
-            delay: anime.stagger(45),
-            duration: 650,
+            delay: anime.stagger(35),
+            duration: 420,
             easing: 'easeOutCubic'
         });
     },
@@ -452,3 +462,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     app.navigate('login');
 });
+
+
+/* MOBILE CLEAN JS PATCH START */
+(function () {
+    if (!window.app || window.app.__mobileCleanPatch) return;
+    window.app.__mobileCleanPatch = true;
+
+    const patchedNavigate = app.navigate.bind(app);
+
+    app.navigate = function (targetViewId) {
+        patchedNavigate(targetViewId);
+
+        requestAnimationFrame(() => {
+            const main = document.getElementById('main-content');
+            if (main) main.scrollTop = 0;
+
+            document.body.classList.toggle('inspection-screen', targetViewId === 'inspeccion');
+
+            if (document.body.classList.contains('preview-mobile')) {
+                const activeView = document.querySelector('.view.active');
+                if (activeView) {
+                    activeView.querySelectorAll('.bento-item, .form-group, .btn-primary, .avatar, .stat-card-accent').forEach(el => {
+                        el.style.opacity = '';
+                        el.style.transform = '';
+                    });
+                }
+            }
+        });
+    };
+})();
+/* MOBILE CLEAN JS PATCH END */
