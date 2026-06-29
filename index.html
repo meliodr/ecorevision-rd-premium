@@ -1,324 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Homework 02 - Heurísticas de Nielsen</title>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        @page { size: A3 landscape; margin: 0; }
-        :root {
-            --black:#0a0a0a; --white:#fff;
-            --c1:#FF90E8; --c2:#FFC900; --c3:#4ADE80; --c4:#60A5FA; --c5:#C084FC;
-            --c6:#FB923C; --c7:#22D3EE; --c8:#FB7185; --c9:#FDE047; --c10:#2DD4BF;
-        }
-        *{box-sizing:border-box;margin:0;padding:0;}
-        body{
-            font-family:'Archivo',sans-serif;
-            background:var(--black); color:var(--white);
-            width:100vw; height:100vh;
-            display:flex; flex-direction:column;
-            overflow:hidden;
-        }
-        body::before{
-            content:''; position:fixed; inset:0;
-            background-image:radial-gradient(rgba(255,255,255,0.09) 1px, transparent 1px);
-            background-size:22px 22px; pointer-events:none; z-index:0;
-        }
-
-        /* ── PAGE ── */
-        .page{ position:relative;z-index:1; flex:1; display:flex; flex-direction:column; padding:12px 16px 8px; overflow:hidden; }
-
-        /* ── TITLE ── */
-        .root-title{
-            align-self:center; margin-bottom:10px; flex-shrink:0;
-            background:var(--white); color:var(--black);
-            border:3px solid var(--black); padding:7px 30px;
-            box-shadow:6px 6px 0 var(--c2); transform:rotate(-0.4deg);
-        }
-        .root-title h1{ font-family:'Space Grotesk'; font-size:1.6rem; text-transform:uppercase; line-height:1; }
-
-        /* ── MAP GRID ── */
-        .map-grid{
-            flex:1; display:grid; min-height:0;
-            grid-template-columns: 1fr 110px 1fr;
-            grid-template-rows: repeat(5, 1fr);
-            gap:6px 0;
-        }
-
-        /* ── CENTER SPINE ── */
-        .spine{
-            grid-column:2; grid-row:1/6;
-            display:flex; flex-direction:column; align-items:center;
-            position:relative;
-        }
-        .spine-line{
-            position:absolute; top:0; bottom:0; left:50%; width:3px;
-            background:var(--white); transform:translateX(-50%);
-        }
-
-        /* ── CONNECTOR ROWS (hold the horizontal lines + badges) ── */
-        .conn-left, .conn-right{
-            display:flex; align-items:center;
-            position:relative;
-        }
-        .conn-left{ justify-content:flex-end; }
-        .conn-right{ justify-content:flex-start; }
-
-        .h-line{
-            flex:1; height:3px; background:var(--white);
-        }
-        .badge{
-            background:var(--white); color:var(--black);
-            border:1.5px solid var(--black);
-            padding:1px 6px; font-size:7.5px; font-weight:900;
-            text-transform:uppercase; white-space:nowrap;
-            box-shadow:1.5px 1.5px 0 var(--black); z-index:2;
-            flex-shrink:0;
-        }
-
-        /* Spine connector per row: left badge + v-dot + right badge */
-        .spine-row{
-            flex:1; display:flex; flex-direction:row; align-items:center;
-            justify-content:space-between; width:100%; position:relative; z-index:2;
-            gap:2px;
-        }
-        .spine-dot{
-            width:12px; height:12px; border-radius:50%;
-            background:var(--white); border:2px solid var(--black);
-            flex-shrink:0;
-        }
-
-        /* ── HEURISTIC CARDS ── */
-        .h-card{
-            background:var(--nc); color:var(--black);
-            border:2.5px solid var(--black);
-            padding:8px 9px 7px;
-            box-shadow:4px 4px 0 rgba(255,255,255,0.1);
-            display:flex; flex-direction:column;
-            position:relative; overflow:hidden;
-        }
-        .h-card .ghost{ position:absolute; bottom:-8px; right:2px; font-family:'Space Grotesk'; font-size:56px; font-weight:700; color:rgba(0,0,0,0.1); pointer-events:none; line-height:1; }
-        .card-top{ display:flex; align-items:flex-start; gap:7px; margin-bottom:4px; }
-        .c-icon{ width:25px; height:25px; flex-shrink:0; background:var(--black); color:var(--nc); border:1.5px solid var(--black); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; margin-top:1px; }
-        .c-num{ font-family:'Space Grotesk'; font-size:0.7rem; font-weight:700; opacity:0.6; }
-        .c-title{ font-family:'Space Grotesk'; font-size:0.78rem; text-transform:uppercase; line-height:1.15; font-weight:700; }
-        .c-desc{ font-size:0.64rem; font-weight:600; line-height:1.2; flex-grow:1; margin-bottom:5px; }
-        .c-example{ background:var(--black); color:var(--white); border:1.5px solid var(--black); padding:3px 6px; font-size:8px; font-family:monospace; display:flex; align-items:center; gap:5px; }
-        .c-example i{ color:var(--nc); font-size:10px; flex-shrink:0; }
-        .ex-label{ font-size:6.5px; font-weight:900; text-transform:uppercase; color:var(--nc); display:block; }
-
-        /* ── APA FOOTER ── */
-        .apa{
-            background:var(--c2); color:var(--black); border:2.5px solid var(--black);
-            padding:6px 14px; margin-top:8px; flex-shrink:0;
-            display:flex; gap:20px; align-items:flex-start; font-size:8px; font-weight:600; z-index:1;
-        }
-        .apa-title{ font-family:'Space Grotesk'; font-size:0.75rem; text-transform:uppercase; white-space:nowrap; margin-top:1px; flex-shrink:0; }
-        .apa p{ padding-left:13px; text-indent:-13px; line-height:1.4; margin-bottom:2px; }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EcoRevisión RD - Prototipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050505;--phone:#f8fafc;--card:#fff;--text:#101827;--muted:#64748b;--line:#e2e8f0;--accent:#e8630a;--success:#28c987;--warn:#f5b51b;--danger:#f45d66;--shadow:0 24px 60px rgba(0,0,0,.28)}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 20% 10%,rgba(232,99,10,.22),transparent 34%),linear-gradient(135deg,#070403,#02070d);font-family:Outfit,system-ui,sans-serif;color:var(--text);overflow-x:hidden}.shell{min-height:100vh;display:grid;place-items:center;padding:28px}.app{position:relative;width:min(1120px,100%);height:720px;background:var(--phone);border-radius:26px;overflow:hidden;display:grid;grid-template-columns:240px 1fr;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.16)}.preview-mobile .app{width:min(430px,calc(100vw - 32px));height:calc(100vh - 40px);display:block;border-radius:32px}.sidebar{background:#fff;border-right:1px solid var(--line);padding:24px 18px;display:flex;flex-direction:column;gap:18px}.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:20px;color:#0d2442}.brand-mark{width:42px;height:42px;border-radius:14px;background:#fff1e8;display:grid;place-items:center;color:var(--accent);font-size:24px}.nav{display:flex;flex-direction:column;gap:8px}.nav button,.bottom button,.menu-list button{border:0;background:transparent;font:inherit;color:var(--muted);cursor:pointer}.nav button{display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;text-align:left}.nav button.active,.nav button:hover{background:#fff1e8;color:var(--accent)}.profile{margin-top:auto;border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--muted)}main{position:relative;overflow:auto;padding:28px 34px 112px}.view{display:none}.view.active{display:block}.crumb{font-size:13px;color:var(--muted);margin-bottom:12px}.crumb b{color:var(--accent)}h1{font-size:30px;margin:0 0 8px;letter-spacing:-.04em}p{color:var(--muted);line-height:1.5}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 8px 24px rgba(15,23,42,.05)}.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-8{grid-column:span 8}.span-12{grid-column:span 12}.stat{border-left:4px solid var(--accent);display:flex;justify-content:space-between;align-items:center}.stat .num{font-size:32px;font-weight:800}.bar{height:4px;background:#e6edf4;border-radius:99px;margin-top:12px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}.btn{border:0;border-radius:13px;padding:12px 16px;background:var(--accent);color:white;font-weight:700;cursor:pointer;display:inline-flex;gap:8px;align-items:center;justify-content:center}.btn.secondary{background:#fff;color:var(--text);border:1px solid var(--line)}.btn.danger{background:#fff5f5;color:var(--danger);border:1px solid #ffd2d5}.toolbar{display:flex;gap:8px;flex-wrap:wrap}.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700;background:#e9fff6;color:#11a66d;border:1px solid #b9f0db}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}.field label{font-size:13px;color:var(--muted);font-weight:700}.field input,.field select{border:1px solid var(--line);border-radius:13px;padding:13px 14px;font:inherit}.login-wrap{display:grid;place-items:center;height:100%;padding:24px}.login{max-width:440px;width:100%}.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#eef2f7;padding:6px;border-radius:16px;margin:16px 0}.seg button{border:0;border-radius:12px;background:transparent;padding:11px;font-weight:800;color:var(--muted);cursor:pointer}.seg button.active{background:#fff;color:var(--accent);box-shadow:0 5px 15px rgba(15,23,42,.08)}.vehicle{display:flex;gap:14px;align-items:center}.vehicle img{width:140px;height:88px;object-fit:cover;border-radius:14px;background:#f8fafc;border:1px solid var(--line)}.vehicle-list{display:flex;flex-direction:column;gap:12px}.vehicle-row{display:flex;justify-content:space-between;gap:12px;align-items:center}.badge{font-size:11px;font-weight:800;border-radius:999px;padding:6px 10px;text-transform:uppercase}.ok{background:#e9fff6;color:#12a46c}.pending{background:#fff7dd;color:#bd7c00}.bad{background:#fff0f1;color:#cf3d45}.steps{display:flex;gap:8px;margin:14px 0}.step{flex:1;height:6px;border-radius:99px;background:#e4ebf2}.step.on{background:var(--accent)}.toggle{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:15px 0}.switch{width:48px;height:27px;border-radius:999px;background:var(--accent);position:relative;flex:none}.switch:after{content:"";position:absolute;width:21px;height:21px;border-radius:50%;background:#fff;right:3px;top:3px}.wallet{max-width:350px;margin:auto;background:linear-gradient(145deg,#0f2037,#121926);color:white;border-radius:28px;padding:28px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25)}.qr{width:112px;height:112px;margin:22px auto;background:repeating-linear-gradient(45deg,#111 0 5px,#fff 5px 10px);border:14px solid white;border-radius:16px}.admin-table{display:flex;flex-direction:column;gap:10px}.row{display:grid;grid-template-columns:1.2fr 1fr auto;gap:10px;align-items:center;background:#f8fafc;border:1px solid var(--line);border-radius:16px;padding:13px}.bottom{display:none}.mobile-menu,.modal{position:absolute;inset:0;background:rgba(0,0,0,.52);display:none;align-items:flex-end;z-index:50;backdrop-filter:blur(5px)}.mobile-menu.active,.modal.active{display:flex}.menu-panel,.modal-panel{width:100%;background:#fff;border-radius:24px 24px 0 0;padding:20px;max-height:86%;overflow:auto}.menu-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px}.menu-list{display:flex;flex-direction:column;gap:6px}.menu-list button{padding:14px;text-align:left;border-radius:13px;color:var(--text);font-weight:700}.menu-list button:hover{background:#f1f5f9}.toast-wrap{position:absolute;left:14px;right:14px;bottom:94px;z-index:80;display:flex;flex-direction:column;gap:10px;pointer-events:none}.toast{background:#fff;border-left:4px solid var(--success);border-radius:16px;padding:14px 16px;box-shadow:0 14px 35px rgba(15,23,42,.22);font-weight:700;display:flex;gap:10px;align-items:center}.theme-fab{position:absolute;top:18px;right:18px;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:#fff;box-shadow:0 14px 30px rgba(15,23,42,.18);cursor:pointer}.preview-mobile .sidebar{position:absolute;left:0;right:0;bottom:0;top:auto;height:82px;z-index:30;border-right:0;border-top:1px solid var(--line);border-radius:0 0 32px 32px;padding:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px)}.preview-mobile .brand,.preview-mobile .profile{display:none}.preview-mobile .nav{height:100%;display:flex;flex-direction:row;align-items:stretch;justify-content:space-around;gap:0}.preview-mobile .nav button{flex:1;justify-content:center;flex-direction:column;font-size:11px;padding:8px 3px;border-radius:0}.preview-mobile .nav button.active{background:transparent;border-bottom:3px solid var(--accent)}.preview-mobile main{position:absolute;inset:0;padding:24px 16px 104px;overflow-y:auto}.preview-mobile .theme-fab{display:none}.preview-mobile h1{font-size:24px}.preview-mobile .grid{grid-template-columns:repeat(2,1fr)}.preview-mobile .span-4,.preview-mobile .span-6,.preview-mobile .span-8,.preview-mobile .span-12{grid-column:span 2}.preview-mobile .stat{min-height:118px}.preview-mobile .vehicle{align-items:flex-start}.preview-mobile .vehicle img{width:118px;height:76px}.preview-mobile .row{grid-template-columns:1fr}.preview-mobile .bottom{display:none}.preview-mobile .login-wrap{height:100%;overflow:auto}.preview-mobile .app{box-shadow:0 18px 55px rgba(0,0,0,.45)}body.light{--phone:#fff;--bg:#f7fafc}.light .app{background:#fff}.light body{background:#fff}@media(max-width:760px){.shell{padding:0}.app{width:100vw!important;height:100vh!important;border-radius:0!important}.preview-mobile .sidebar{border-radius:0}.preview-mobile main{padding-top:22px}}
+</style>
 </head>
-<body>
-<div class="page">
-
-    <div class="root-title"><h1>Las 10 Heurísticas de Usabilidad</h1></div>
-
-    <div class="map-grid">
-
-        <!-- ══════════ ROW 1 ══════════ -->
-        <!-- LEFT: 01 -->
-        <div class="h-card" style="--nc:var(--c1);">
-            <span class="ghost">01</span>
-            <div class="card-top">
-                <div class="c-icon"><i class="fa-solid fa-eye"></i></div>
-                <div>
-                    <div class="c-num">01</div>
-                    <div class="c-title">Visibilidad del Estado del Sistema</div>
-                </div>
-            </div>
-            <p class="c-desc">El sistema siempre debe mantener informados a los usuarios sobre lo que ocurre mediante retroalimentación apropiada y en tiempo oportuno.</p>
-            <div class="c-example"><i class="fa-solid fa-bars-progress"></i><div><span class="ex-label">Caso de uso</span>Barra de progreso al 75% durante descarga</div></div>
-        </div>
-
-        <!-- SPINE ROW 1 -->
-        <div class="spine" style="grid-row:1;">
-            <div class="spine-line"></div>
-            <div class="spine-row">
-                <div class="badge">define</div>
-                <div class="spine-dot"></div>
-                <div class="badge">promueve</div>
-            </div>
-        </div>
-
-        <!-- RIGHT: 06 -->
-        <div class="h-card" style="--nc:var(--c6);">
-            <span class="ghost">06</span>
-            <div class="card-top">
-                <div class="c-icon"><i class="fa-solid fa-brain"></i></div>
-                <div>
-                    <div class="c-num">06</div>
-                    <div class="c-title">Reconocimiento en lugar de Recuerdo</div>
-                </div>
-            </div>
-            <p class="c-desc">Minimizar la carga de memoria haciendo visibles objetos y opciones. Es mejor reconocer algo que tener que recordarlo de la memoria.</p>
-            <div class="c-example"><i class="fa-solid fa-clock-rotate-left"></i><div><span class="ex-label">Caso de uso</span>Historial de búsquedas visible al hacer clic</div></div>
-        </div>
-
-        <!-- ══════════ ROW 2 ══════════ -->
-        <div class="h-card" style="--nc:var(--c2);">
-            <span class="ghost">02</span>
-            <div class="card-top">
-                <div class="c-icon"><i class="fa-solid fa-language"></i></div>
-                <div>
-                    <div class="c-num">02</div>
-                    <div class="c-title">Coincidencia con el Mundo Real</div>
-                </div>
-            </div>
-            <p class="c-desc">El sistema debe hablar el idioma del usuario con palabras y conceptos familiares de su mundo real, no con terminología técnica interna del sistema.</p>
-            <div class="c-example"><i class="fa-solid fa-cart-shopping"></i><div><span class="ex-label">Caso de uso</span>Icono de carrito en tiendas en línea</div></div>
-        </div>
-
-        <div class="spine" style="grid-row:2;">
-            <div class="spine-line"></div>
-            <div class="spine-row">
-                <div class="badge">abarca</div>
-                <div class="spine-dot"></div>
-                <div class="badge">facilita</div>
-            </div>
-        </div>
-
-        <div class="h-card" style="--nc:var(--c7);">
-            <span class="ghost">07</span>
-            <div class="card-top">
-                <div class="c-icon"><i class="fa-solid fa-bolt"></i></div>
-                <div>
-                    <div class="c-num">07</div>
-                    <div class="c-title">Flexibilidad y Eficiencia de Uso</div>
-                </div>
-            </div>
-            <p class="c-desc">Los aceleradores, invisibles para novatos, mejoran la interacción de expertos. Permitir personalizar acciones frecuentes para distintos niveles de usuario.</p>
-            <div class="c-example"><i class="fa-regular fa-keyboard"></i><div><span class="ex-label">Caso de uso</span>Atajos de teclado Ctrl+C / Ctrl+Z</div></div>
-        </div>
-
-        <!-- ══════════ ROW 3 ══════════ -->
-        <div class="h-card" style="--nc:var(--c3);">
-            <span class="ghost">03</span>
-            <div class="card-top">
-                <div class="c-icon"><i class="fa-solid fa-person-walking-arrow-loop-left"></i></div>
-                <div>
-                    <div class="c-num">03</div>
-                    <div class="c-title">Control y Libertad del Usuario</div>
-                </div>
-            </div>
-            <p class="c-desc">Los usuarios cometen errores y necesitan salidas de emergencia claramente marcadas para abandonar estados no deseados sin largas secuencias de pasos.</p>
-            <div class="c-example"><i class="fa-solid fa-rotate-left"></i><div><span class="ex-label">Caso de uso</span>Botón "Deshacer" en procesadores de texto</div></div>
-        </div>
-
-        <div class="spine" style="grid-row:3;">
-            <div class="spine-line"></div>
-            <div class="spine-row">
-                <div class="badge">incluye</div>
-                <div class="spine-dot"></div>
-                <div class="badge">sugiere</div>
-            </div>
-        </div>
-
-        <div class="h-card" style="--nc:var(--c8);">
-            <span class="ghost">08</span>
-            <div class="card-top">
-                <div class="c-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                <div>
-                    <div class="c-num">08</div>
-                    <div class="c-title">Estética y Diseño Minimalista</div>
-                </div>
-            </div>
-            <p class="c-desc">Los diálogos no deben contener información irrelevante. Cada unidad extra compite con las relevantes y reduce la visibilidad de lo realmente importante.</p>
-            <div class="c-example"><i class="fa-brands fa-google"></i><div><span class="ex-label">Caso de uso</span>Inicio de Google: solo la barra de búsqueda</div></div>
-        </div>
-
-        <!-- ══════════ ROW 4 ══════════ -->
-        <div class="h-card" style="--nc:var(--c4);">
-            <span class="ghost">04</span>
-            <div class="card-top">
-                <div class="c-icon"><i class="fa-solid fa-clone"></i></div>
-                <div>
-                    <div class="c-num">04</div>
-                    <div class="c-title">Consistencia y Estándares</div>
-                </div>
-            </div>
-            <p class="c-desc">Los usuarios no deben preguntarse si distintas palabras o acciones significan lo mismo. Seguir las convenciones de la plataforma evita la ambigüedad.</p>
-            <div class="c-example"><i class="fa-solid fa-right-from-bracket"></i><div><span class="ex-label">Caso de uso</span>"Logout" siempre en la esquina superior derecha</div></div>
-        </div>
-
-        <div class="spine" style="grid-row:4;">
-            <div class="spine-line"></div>
-            <div class="spine-row">
-                <div class="badge">establece</div>
-                <div class="spine-dot"></div>
-                <div class="badge">permite</div>
-            </div>
-        </div>
-
-        <div class="h-card" style="--nc:var(--c9);">
-            <span class="ghost">09</span>
-            <div class="card-top">
-                <div class="c-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                <div>
-                    <div class="c-num">09</div>
-                    <div class="c-title">Ayudar a Reconocer y Recuperarse de Errores</div>
-                </div>
-            </div>
-            <p class="c-desc">Los mensajes de error deben expresarse en lenguaje claro, indicar el problema con precisión y sugerir una solución constructiva sin tecnicismos.</p>
-            <div class="c-example"><i class="fa-solid fa-bug"></i><div><span class="ex-label">Caso de uso</span>Página 404 con enlace de retorno al inicio</div></div>
-        </div>
-
-        <!-- ══════════ ROW 5 ══════════ -->
-        <div class="h-card" style="--nc:var(--c5);">
-            <span class="ghost">05</span>
-            <div class="card-top">
-                <div class="c-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                <div>
-                    <div class="c-num">05</div>
-                    <div class="c-title">Prevención de Errores</div>
-                </div>
-            </div>
-            <p class="c-desc">Mejor que los mensajes de error es un diseño cuidadoso que prevenga que los problemas ocurran. Eliminar condiciones propensas a error o confirmar acciones.</p>
-            <div class="c-example"><i class="fa-solid fa-paper-plane"></i><div><span class="ex-label">Caso de uso</span>Botón "Enviar" inactivo si hay campos vacíos</div></div>
-        </div>
-
-        <div class="spine" style="grid-row:5;">
-            <div class="spine-line"></div>
-            <div class="spine-row">
-                <div class="badge">requiere</div>
-                <div class="spine-dot"></div>
-                <div class="badge">ofrece</div>
-            </div>
-        </div>
-
-        <div class="h-card" style="--nc:var(--c10);">
-            <span class="ghost">10</span>
-            <div class="card-top">
-                <div class="c-icon"><i class="fa-solid fa-book-open"></i></div>
-                <div>
-                    <div class="c-num">10</div>
-                    <div class="c-title">Ayuda y Documentación</div>
-                </div>
-            </div>
-            <p class="c-desc">Aunque lo ideal es no requerir documentación, puede ser necesario proveer ayuda fácil de buscar, centrada en la tarea del usuario y con pasos concretos.</p>
-            <div class="c-example"><i class="fa-solid fa-circle-question"></i><div><span class="ex-label">Caso de uso</span>Tooltips contextuales y sección de preguntas FAQ</div></div>
-        </div>
-
-    </div><!-- /map-grid -->
-
-    <!-- APA 7 -->
-    <div class="apa">
-        <div class="apa-title">Referencias<br>Bibliográficas</div>
-        <div>
-            <p>NNGroup. (30 de enero de 2024). <em>Diez heurísticas de usabilidad para el diseño de interfaces de usuario</em>. https://www.nngroup.com/articles/ten-usability-heuristics/</p>
-            <p>Canal NNGroup. (26 de julio de 2019). <em>Usabilidad Heurística</em> [Archivo de Vídeo]. YouTube. https://youtu.be/cTtc90jCULU?feature=shared</p>
-        </div>
-    </div>
-
-</div>
-</body>
-</html>
+<body class="preview-mobile">
+<div class="shell"><div class="app" id="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brand-mark">✓</div><span>EcoRevisión</span></div>
+  <nav class="nav" id="nav"></nav>
+  <div class="profile"><b>Carlos Perez</b><br>carlos.perez@email.com</div>
+</aside>
+<main id="main">
+<section id="login" class="view active login-wrap"><div class="card login"><div style="text-align:center"><div class="brand-mark" style="margin:auto;width:70px;height:70px;font-size:36px">✓</div><h1>EcoRevisión RD</h1><p>Prototipo funcional para gestión de revisión técnica vehicular.</p></div><div class="seg"><button id="desktopBtn" onclick="setMode('desktop')">Desktop</button><button id="mobileBtn" class="active" onclick="setMode('mobile')">Móvil</button></div><div class="seg"><button id="userBtn" class="active" onclick="setRole('user')">Usuario</button><button id="adminBtn" onclick="setRole('admin')">Admin</button></div><div class="field"><label>Cédula / Pasaporte</label><input value="001-0000000-1"></div><div class="field"><label>Contraseña</label><input type="password" value="12345678"></div><button class="btn" style="width:100%" onclick="login()">Iniciar sesión</button><p style="text-align:center">¿Olvidaste tu contraseña? · Crear cuenta nueva</p></div></section>
+<section id="dashboard" class="view"><div class="crumb">Inicio <b>/</b> Resumen</div><h1>Dashboard</h1><p>Control total sobre el estado de tus vehículos.</p><span class="pill">✓ Sistemas operativos conectados</span><div class="grid" style="margin-top:22px"><div class="card stat span-4"><div><p>Vehículos activos</p><div class="num">3</div><div class="bar"><i style="width:100%"></i></div></div><b>🚘</b></div><div class="card stat span-4" style="border-left-color:var(--warn)"><div><p>Inspecciones pendientes</p><div class="num" style="color:var(--warn)">1</div><div class="bar"><i style="width:36%;background:var(--warn)"></i></div></div><b>📋</b></div><div class="card stat span-4" style="border-left-color:var(--success)"><div><p>Multas pendientes</p><div class="num" style="color:var(--success)">0</div><div class="bar"><i style="width:0;background:var(--success)"></i></div></div><b>🛡️</b></div><div class="card span-8"><div class="vehicle-row"><h2>Mi flota</h2><button class="btn secondary" onclick="openModal()">+ Añadir</button></div><div class="vehicle-list" id="vehicleList"><div class="vehicle-row"><div class="vehicle"><img src="https://conteudo.imguol.com.br/c/entretenimento/34/2020/10/09/honda-civic-2021-1602294772813_v2_1400x540.jpgx" alt="Honda Civic"><div><b>Honda Civic 2022</b><p>A345678 · Renovado</p></div></div><span class="badge ok">Aprobado</span></div><div class="vehicle-row"><div class="vehicle"><img src="https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&q=80&w=400" alt="Toyota Hilux"><div><b>Toyota Hilux 2019</b><p>L987654 · Requiere inspección</p></div></div><span class="badge pending">Pendiente</span></div></div></div><div class="card span-4"><h2>Acciones rápidas</h2><div class="grid"><button class="btn secondary span-6" onclick="go('inspeccion')">Inspección</button><button class="btn secondary span-6" onclick="go('marbete')">Marbete</button><button class="btn secondary span-6" onclick="toast('Pago procesado')">Pagos</button><button class="btn secondary span-6" onclick="toast('Cita agendada')">Cita</button></div></div></div></section>
+<section id="inspeccion" class="view"><div class="crumb">Inicio <b>/</b> Módulo Inspector</div><h1>Captura de Inspección</h1><p>Vista técnica para el inspector certificado.</p><div class="steps"><i class="step on"></i><i class="step"></i><i class="step"></i></div><div class="grid"><div class="card span-4" style="text-align:center"><img src="https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&q=80&w=400" style="width:100%;height:150px;object-fit:cover;border-radius:14px"><h2>Toyota Hilux 2019</h2><p>Chasis: JTEKT8284849202<br>Placa: L987654</p><button class="btn" style="background:var(--warn);color:#111;width:100%">ID #INSP-84729</button></div><div class="card span-8"><h2 style="color:var(--accent)">1. Emisiones de Gases</h2><div class="toggle"><b>CO dentro de parámetros normales</b><span class="switch"></span></div><div class="toggle"><b>HC dentro de parámetros normales</b><span class="switch"></span></div><div class="toggle"><b>Fuga en sistema de escape detectada</b><span class="switch" style="background:#cbd5e1"></span></div><br><button class="btn" onclick="toast('Inspección firmada digitalmente')">Firmar y Emitir</button></div></div></section>
+<section id="marbete" class="view"><div class="crumb">Inicio <b>/</b> Marbete</div><h1>Marbete Digital</h1><p>Certificación criptográfica de inspección vehicular.</p><div class="wallet"><h2>2026 - 2027</h2><h1 style="color:white;font-size:42px">A345678</h1><div class="qr"></div><p style="color:#b9c5d4">VÁLIDO HASTA</p><h2>28/10/2027</h2></div></section>
+<section id="admin" class="view"><div class="crumb">Inicio <b>/</b> Administración</div><h1>Panel Administrativo</h1><p>Control ejecutivo de talleres, inspectores, citas y certificaciones.</p><span class="pill">✓ Sesión administrativa activa</span><div class="grid" style="margin-top:22px"><div class="card stat span-4"><div><p>Talleres por validar</p><div class="num">4</div><div class="bar"><i style="width:66%"></i></div></div><b>🏢</b></div><div class="card stat span-4" style="border-left-color:var(--success)"><div><p>Inspectores activos</p><div class="num" style="color:var(--success)">18</div><div class="bar"><i style="width:90%;background:var(--success)"></i></div></div><b>🪪</b></div><div class="card stat span-4" style="border-left-color:var(--warn)"><div><p>Citas de hoy</p><div class="num" style="color:var(--warn)">126</div><div class="bar"><i style="width:80%;background:var(--warn)"></i></div></div><b>📅</b></div><div class="card span-12"><div class="vehicle-row"><h2>Solicitudes de Talleres</h2><button class="btn secondary" onclick="toast('Listado actualizado')">Actualizar</button></div><div class="admin-table"><div class="row"><b>Auto Centro del Caribe</b><span>Santo Domingo · Documentos completos</span><button class="btn" onclick="toast('Taller aprobado')">Aprobar</button></div><div class="row"><b>ITV Norte Express</b><span>Santiago · Pendiente RNC</span><button class="btn danger" onclick="toast('Solicitud rechazada')">Rechazar</button></div></div></div></div></section>
+<section id="supervision" class="view"><div class="crumb">Inicio <b>/</b> Administración <b>/</b> Inspecciones</div><h1>Supervisión de Inspecciones</h1><p>Vista administrativa para monitorear inspecciones, resultados y alertas operativas.</p><span class="pill">⌁ Monitoreo técnico en tiempo real</span><div class="grid" style="margin-top:22px"><div class="card stat span-6"><div><p>En proceso</p><div class="num">12</div><div class="bar"><i style="width:60%"></i></div></div><b>⏱️</b></div><div class="card stat span-6" style="border-left-color:var(--success)"><div><p>Aprobadas hoy</p><div class="num" style="color:var(--success)">84</div><div class="bar"><i style="width:72%;background:var(--success)"></i></div></div><b>✅</b></div><div class="card span-12"><h2>Cola de inspecciones</h2><button class="btn secondary" onclick="toast('Listado actualizado')">Actualizar</button><div class="admin-table" style="margin-top:12px"><div class="row"><b>Honda Civic</b><span>ITV Centro Sur · M. Santana</span><span class="badge ok">Aprobado</span></div><div class="row"><b>Toyota Hilux</b><span>AutoCentro Nacional · J. Rodríguez</span><span class="badge pending">En proceso</span></div></div></div></div></section>
+<section id="perfil" class="view"><div class="crumb">Inicio <b>/</b> Perfil</div><h1>Mi Perfil</h1><div class="card"><h2>Carlos Perez</h2><p>carlos.perez@email.com</p><button class="btn secondary">Cambiar foto</button> <button class="btn danger" onclick="logout()">Cerrar sesión</button></div></section>
+</main><button class="theme-fab" onclick="toggleTheme()">☀</button><div class="toast-wrap" id="toastWrap"></div>
+<div class="mobile-menu" id="menu"><div class="menu-panel"><div class="menu-head"><h2>Menú Principal</h2><button class="btn secondary" onclick="closeMenu()">×</button></div><div class="card vehicle"><div class="brand-mark">👤</div><div><b>Carlos Perez</b><p>carlos.perez@email.com</p></div></div><div class="menu-list" id="menuList"></div></div></div>
+<div class="modal" id="modal"><div class="modal-panel"><div class="menu-head"><h2>Añadir Vehículo</h2><button class="btn secondary" onclick="closeModal()">×</button></div><div class="field"><label>Marca</label><input id="marca" placeholder="Ej. Honda"></div><div class="field"><label>Modelo</label><input id="modelo" placeholder="Ej. Civic 2022"></div><div class="field"><label>Placa</label><input id="placa" placeholder="Ej. A123456"></div><button class="btn" onclick="addVehicle()">Guardar Vehículo</button></div></div>
+</div></div>
+<script>
+let role='user';let current='login';const nav=document.getElementById('nav'),menuList=document.getElementById('menuList');function setMode(m){document.body.classList.toggle('preview-mobile',m==='mobile');desktopBtn.classList.toggle('active',m==='desktop');mobileBtn.classList.toggle('active',m==='mobile')}function setRole(r){role=r;userBtn.classList.toggle('active',r==='user');adminBtn.classList.toggle('active',r==='admin')}function login(){go(role==='admin'?'admin':'dashboard');toast(role==='admin'?'Bienvenido al panel administrativo':'Bienvenido a EcoRevisión RD')}function views(){return role==='admin'?[['admin','Panel Admin','▦'],['supervision','Supervisión ITV','▤'],['perfil','Menú','☰']]:[['dashboard','Dashboard','⌂'],['inspeccion','Inspección','▤'],['marbete','Marbete','▣'],['perfil','Menú','☰']]}function renderNav(){nav.innerHTML='';menuList.innerHTML='<button onclick="toggleTheme();closeMenu()">☀ Cambiar Tema</button>';views().forEach(v=>{let b=document.createElement('button');b.innerHTML='<span>'+v[2]+'</span><span>'+v[1]+'</span>';b.className=current===v[0]?'active':'';b.onclick=()=>v[0]==='perfil'?openMenu():go(v[0]);nav.appendChild(b);if(v[0]!=='perfil')menuList.innerHTML+='<button onclick="go(\''+v[0]+'\');closeMenu()">'+v[2]+' '+v[1]+'</button>'});menuList.innerHTML+='<button onclick="go(\'perfil\');closeMenu()">👤 Editar Perfil</button><button style="color:var(--danger)" onclick="logout();closeMenu()">⇱ Cerrar Sesión</button>'}function go(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');current=id;document.getElementById('sidebar').style.display=id==='login'?'none':'';renderNav()}function openMenu(){document.getElementById('menu').classList.add('active')}function closeMenu(){document.getElementById('menu').classList.remove('active')}function openModal(){document.getElementById('modal').classList.add('active')}function closeModal(){document.getElementById('modal').classList.remove('active')}function toast(msg){let t=document.createElement('div');t.className='toast';t.innerHTML='✓ '+msg;toastWrap.appendChild(t);setTimeout(()=>t.remove(),2600)}function toggleTheme(){document.body.classList.toggle('light');toast('Tema actualizado')}function logout(){role='user';setRole('user');go('login')}function addVehicle(){let m=marca.value||'Honda',mo=modelo.value||'Civic 2022',p=placa.value||'A000000';vehicleList.insertAdjacentHTML('beforeend','<div class="vehicle-row"><div class="vehicle"><img src="https://conteudo.imguol.com.br/c/entretenimento/34/2020/10/09/honda-civic-2021-1602294772813_v2_1400x540.jpgx"><div><b>'+m+' '+mo+'</b><p>'+p.toUpperCase()+' · Recién añadido</p></div></div><span class="badge pending">En proceso</span></div>');closeModal();toast('Vehículo añadido correctamente')}renderNav();
+</script>
+</body></html>
