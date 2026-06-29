@@ -1258,3 +1258,35 @@ body.preview-mobile .toast-wrap {
 
 </body>
 </html>
+
+<script id="inspection-scroll-final-fix">
+(function () {
+  function fixInspectionPosition() {
+    var active = document.querySelector('.view.active');
+    var isInspection = active && active.id === 'inspeccion';
+
+    document.body.classList.toggle('inspection-screen', !!isInspection);
+
+    if (isInspection) {
+      var main = document.querySelector('#main-content, #main, main');
+      if (main && !main.dataset.inspectionAdjusted) {
+        main.scrollTop = 0;
+        main.dataset.inspectionAdjusted = '1';
+      }
+    } else {
+      var mainReset = document.querySelector('#main-content, #main, main');
+      if (mainReset) {
+        delete mainReset.dataset.inspectionAdjusted;
+      }
+    }
+  }
+
+  window.addEventListener('load', function () {
+    setTimeout(fixInspectionPosition, 100);
+  });
+
+  document.addEventListener('click', function () {
+    setTimeout(fixInspectionPosition, 120);
+  });
+})();
+</script>

@@ -2177,3 +2177,25 @@ body.preview-mobile .toast-wrap {
   width: auto !important;
   max-width: none !important;
 }
+
+/* =========================================================
+   AJUSTE FINAL: bajar un poco la vista de inspección móvil
+   ========================================================= */
+
+body.preview-mobile #inspeccion.view.active,
+body.preview-mobile section#inspeccion.view.active {
+  padding-top: 58px !important;
+}
+
+/* Mantener aire abajo para que no se tape con la barra inferior */
+body.preview-mobile #inspeccion {
+  padding-bottom: 280px !important;
+}
+
+/* Asegurar que el scroll de inspección empiece limpio */
+body.preview-mobile.inspection-screen #main-content,
+body.preview-mobile.inspection-screen #main,
+body.preview-mobile.inspection-screen main {
+  padding-top: 34px !important;
+  padding-bottom: 230px !important;
+}
