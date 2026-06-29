@@ -1,36 +1,1050 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>EcoRevisión RD - Prototipo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#050505;--phone:#f8fafc;--card:#fff;--text:#101827;--muted:#64748b;--line:#e2e8f0;--accent:#e8630a;--success:#28c987;--warn:#f5b51b;--danger:#f45d66;--shadow:0 24px 60px rgba(0,0,0,.28)}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 20% 10%,rgba(232,99,10,.22),transparent 34%),linear-gradient(135deg,#070403,#02070d);font-family:Outfit,system-ui,sans-serif;color:var(--text);overflow-x:hidden}.shell{min-height:100vh;display:grid;place-items:center;padding:28px}.app{position:relative;width:min(1120px,100%);height:720px;background:var(--phone);border-radius:26px;overflow:hidden;display:grid;grid-template-columns:240px 1fr;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.16)}.preview-mobile .app{width:min(430px,calc(100vw - 32px));height:calc(100vh - 40px);display:block;border-radius:32px}.sidebar{background:#fff;border-right:1px solid var(--line);padding:24px 18px;display:flex;flex-direction:column;gap:18px}.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:20px;color:#0d2442}.brand-mark{width:42px;height:42px;border-radius:14px;background:#fff1e8;display:grid;place-items:center;color:var(--accent);font-size:24px}.nav{display:flex;flex-direction:column;gap:8px}.nav button,.bottom button,.menu-list button{border:0;background:transparent;font:inherit;color:var(--muted);cursor:pointer}.nav button{display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;text-align:left}.nav button.active,.nav button:hover{background:#fff1e8;color:var(--accent)}.profile{margin-top:auto;border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--muted)}main{position:relative;overflow:auto;padding:28px 34px 112px}.view{display:none}.view.active{display:block}.crumb{font-size:13px;color:var(--muted);margin-bottom:12px}.crumb b{color:var(--accent)}h1{font-size:30px;margin:0 0 8px;letter-spacing:-.04em}p{color:var(--muted);line-height:1.5}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 8px 24px rgba(15,23,42,.05)}.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-8{grid-column:span 8}.span-12{grid-column:span 12}.stat{border-left:4px solid var(--accent);display:flex;justify-content:space-between;align-items:center}.stat .num{font-size:32px;font-weight:800}.bar{height:4px;background:#e6edf4;border-radius:99px;margin-top:12px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}.btn{border:0;border-radius:13px;padding:12px 16px;background:var(--accent);color:white;font-weight:700;cursor:pointer;display:inline-flex;gap:8px;align-items:center;justify-content:center}.btn.secondary{background:#fff;color:var(--text);border:1px solid var(--line)}.btn.danger{background:#fff5f5;color:var(--danger);border:1px solid #ffd2d5}.toolbar{display:flex;gap:8px;flex-wrap:wrap}.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:700;background:#e9fff6;color:#11a66d;border:1px solid #b9f0db}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}.field label{font-size:13px;color:var(--muted);font-weight:700}.field input,.field select{border:1px solid var(--line);border-radius:13px;padding:13px 14px;font:inherit}.login-wrap{display:grid;place-items:center;height:100%;padding:24px}.login{max-width:440px;width:100%}.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#eef2f7;padding:6px;border-radius:16px;margin:16px 0}.seg button{border:0;border-radius:12px;background:transparent;padding:11px;font-weight:800;color:var(--muted);cursor:pointer}.seg button.active{background:#fff;color:var(--accent);box-shadow:0 5px 15px rgba(15,23,42,.08)}.vehicle{display:flex;gap:14px;align-items:center}.vehicle img{width:140px;height:88px;object-fit:cover;border-radius:14px;background:#f8fafc;border:1px solid var(--line)}.vehicle-list{display:flex;flex-direction:column;gap:12px}.vehicle-row{display:flex;justify-content:space-between;gap:12px;align-items:center}.badge{font-size:11px;font-weight:800;border-radius:999px;padding:6px 10px;text-transform:uppercase}.ok{background:#e9fff6;color:#12a46c}.pending{background:#fff7dd;color:#bd7c00}.bad{background:#fff0f1;color:#cf3d45}.steps{display:flex;gap:8px;margin:14px 0}.step{flex:1;height:6px;border-radius:99px;background:#e4ebf2}.step.on{background:var(--accent)}.toggle{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:15px 0}.switch{width:48px;height:27px;border-radius:999px;background:var(--accent);position:relative;flex:none}.switch:after{content:"";position:absolute;width:21px;height:21px;border-radius:50%;background:#fff;right:3px;top:3px}.wallet{max-width:350px;margin:auto;background:linear-gradient(145deg,#0f2037,#121926);color:white;border-radius:28px;padding:28px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25)}.qr{width:112px;height:112px;margin:22px auto;background:repeating-linear-gradient(45deg,#111 0 5px,#fff 5px 10px);border:14px solid white;border-radius:16px}.admin-table{display:flex;flex-direction:column;gap:10px}.row{display:grid;grid-template-columns:1.2fr 1fr auto;gap:10px;align-items:center;background:#f8fafc;border:1px solid var(--line);border-radius:16px;padding:13px}.bottom{display:none}.mobile-menu,.modal{position:absolute;inset:0;background:rgba(0,0,0,.52);display:none;align-items:flex-end;z-index:50;backdrop-filter:blur(5px)}.mobile-menu.active,.modal.active{display:flex}.menu-panel,.modal-panel{width:100%;background:#fff;border-radius:24px 24px 0 0;padding:20px;max-height:86%;overflow:auto}.menu-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:12px}.menu-list{display:flex;flex-direction:column;gap:6px}.menu-list button{padding:14px;text-align:left;border-radius:13px;color:var(--text);font-weight:700}.menu-list button:hover{background:#f1f5f9}.toast-wrap{position:absolute;left:14px;right:14px;bottom:94px;z-index:80;display:flex;flex-direction:column;gap:10px;pointer-events:none}.toast{background:#fff;border-left:4px solid var(--success);border-radius:16px;padding:14px 16px;box-shadow:0 14px 35px rgba(15,23,42,.22);font-weight:700;display:flex;gap:10px;align-items:center}.theme-fab{position:absolute;top:18px;right:18px;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:#fff;box-shadow:0 14px 30px rgba(15,23,42,.18);cursor:pointer}.preview-mobile .sidebar{position:absolute;left:0;right:0;bottom:0;top:auto;height:82px;z-index:30;border-right:0;border-top:1px solid var(--line);border-radius:0 0 32px 32px;padding:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px)}.preview-mobile .brand,.preview-mobile .profile{display:none}.preview-mobile .nav{height:100%;display:flex;flex-direction:row;align-items:stretch;justify-content:space-around;gap:0}.preview-mobile .nav button{flex:1;justify-content:center;flex-direction:column;font-size:11px;padding:8px 3px;border-radius:0}.preview-mobile .nav button.active{background:transparent;border-bottom:3px solid var(--accent)}.preview-mobile main{position:absolute;inset:0;padding:24px 16px 104px;overflow-y:auto}.preview-mobile .theme-fab{display:none}.preview-mobile h1{font-size:24px}.preview-mobile .grid{grid-template-columns:repeat(2,1fr)}.preview-mobile .span-4,.preview-mobile .span-6,.preview-mobile .span-8,.preview-mobile .span-12{grid-column:span 2}.preview-mobile .stat{min-height:118px}.preview-mobile .vehicle{align-items:flex-start}.preview-mobile .vehicle img{width:118px;height:76px}.preview-mobile .row{grid-template-columns:1fr}.preview-mobile .bottom{display:none}.preview-mobile .login-wrap{height:100%;overflow:auto}.preview-mobile .app{box-shadow:0 18px 55px rgba(0,0,0,.45)}body.light{--phone:#fff;--bg:#f7fafc}.light .app{background:#fff}.light body{background:#fff}@media(max-width:760px){.shell{padding:0}.app{width:100vw!important;height:100vh!important;border-radius:0!important}.preview-mobile .sidebar{border-radius:0}.preview-mobile main{padding-top:22px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoRevisión RD - Premium Portal</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Anime.js for smooth stagger animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 </head>
-<body class="preview-mobile">
-<div class="shell"><div class="app" id="app">
-<aside class="sidebar" id="sidebar">
-  <div class="brand"><div class="brand-mark">✓</div><span>EcoRevisión</span></div>
-  <nav class="nav" id="nav"></nav>
-  <div class="profile"><b>Carlos Perez</b><br>carlos.perez@email.com</div>
-</aside>
-<main id="main">
-<section id="login" class="view active login-wrap"><div class="card login"><div style="text-align:center"><div class="brand-mark" style="margin:auto;width:70px;height:70px;font-size:36px">✓</div><h1>EcoRevisión RD</h1><p>Prototipo funcional para gestión de revisión técnica vehicular.</p></div><div class="seg"><button id="desktopBtn" onclick="setMode('desktop')">Desktop</button><button id="mobileBtn" class="active" onclick="setMode('mobile')">Móvil</button></div><div class="seg"><button id="userBtn" class="active" onclick="setRole('user')">Usuario</button><button id="adminBtn" onclick="setRole('admin')">Admin</button></div><div class="field"><label>Cédula / Pasaporte</label><input value="001-0000000-1"></div><div class="field"><label>Contraseña</label><input type="password" value="12345678"></div><button class="btn" style="width:100%" onclick="login()">Iniciar sesión</button><p style="text-align:center">¿Olvidaste tu contraseña? · Crear cuenta nueva</p></div></section>
-<section id="dashboard" class="view"><div class="crumb">Inicio <b>/</b> Resumen</div><h1>Dashboard</h1><p>Control total sobre el estado de tus vehículos.</p><span class="pill">✓ Sistemas operativos conectados</span><div class="grid" style="margin-top:22px"><div class="card stat span-4"><div><p>Vehículos activos</p><div class="num">3</div><div class="bar"><i style="width:100%"></i></div></div><b>🚘</b></div><div class="card stat span-4" style="border-left-color:var(--warn)"><div><p>Inspecciones pendientes</p><div class="num" style="color:var(--warn)">1</div><div class="bar"><i style="width:36%;background:var(--warn)"></i></div></div><b>📋</b></div><div class="card stat span-4" style="border-left-color:var(--success)"><div><p>Multas pendientes</p><div class="num" style="color:var(--success)">0</div><div class="bar"><i style="width:0;background:var(--success)"></i></div></div><b>🛡️</b></div><div class="card span-8"><div class="vehicle-row"><h2>Mi flota</h2><button class="btn secondary" onclick="openModal()">+ Añadir</button></div><div class="vehicle-list" id="vehicleList"><div class="vehicle-row"><div class="vehicle"><img src="https://conteudo.imguol.com.br/c/entretenimento/34/2020/10/09/honda-civic-2021-1602294772813_v2_1400x540.jpgx" alt="Honda Civic"><div><b>Honda Civic 2022</b><p>A345678 · Renovado</p></div></div><span class="badge ok">Aprobado</span></div><div class="vehicle-row"><div class="vehicle"><img src="https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&q=80&w=400" alt="Toyota Hilux"><div><b>Toyota Hilux 2019</b><p>L987654 · Requiere inspección</p></div></div><span class="badge pending">Pendiente</span></div></div></div><div class="card span-4"><h2>Acciones rápidas</h2><div class="grid"><button class="btn secondary span-6" onclick="go('inspeccion')">Inspección</button><button class="btn secondary span-6" onclick="go('marbete')">Marbete</button><button class="btn secondary span-6" onclick="toast('Pago procesado')">Pagos</button><button class="btn secondary span-6" onclick="toast('Cita agendada')">Cita</button></div></div></div></section>
-<section id="inspeccion" class="view"><div class="crumb">Inicio <b>/</b> Módulo Inspector</div><h1>Captura de Inspección</h1><p>Vista técnica para el inspector certificado.</p><div class="steps"><i class="step on"></i><i class="step"></i><i class="step"></i></div><div class="grid"><div class="card span-4" style="text-align:center"><img src="https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&q=80&w=400" style="width:100%;height:150px;object-fit:cover;border-radius:14px"><h2>Toyota Hilux 2019</h2><p>Chasis: JTEKT8284849202<br>Placa: L987654</p><button class="btn" style="background:var(--warn);color:#111;width:100%">ID #INSP-84729</button></div><div class="card span-8"><h2 style="color:var(--accent)">1. Emisiones de Gases</h2><div class="toggle"><b>CO dentro de parámetros normales</b><span class="switch"></span></div><div class="toggle"><b>HC dentro de parámetros normales</b><span class="switch"></span></div><div class="toggle"><b>Fuga en sistema de escape detectada</b><span class="switch" style="background:#cbd5e1"></span></div><br><button class="btn" onclick="toast('Inspección firmada digitalmente')">Firmar y Emitir</button></div></div></section>
-<section id="marbete" class="view"><div class="crumb">Inicio <b>/</b> Marbete</div><h1>Marbete Digital</h1><p>Certificación criptográfica de inspección vehicular.</p><div class="wallet"><h2>2026 - 2027</h2><h1 style="color:white;font-size:42px">A345678</h1><div class="qr"></div><p style="color:#b9c5d4">VÁLIDO HASTA</p><h2>28/10/2027</h2></div></section>
-<section id="admin" class="view"><div class="crumb">Inicio <b>/</b> Administración</div><h1>Panel Administrativo</h1><p>Control ejecutivo de talleres, inspectores, citas y certificaciones.</p><span class="pill">✓ Sesión administrativa activa</span><div class="grid" style="margin-top:22px"><div class="card stat span-4"><div><p>Talleres por validar</p><div class="num">4</div><div class="bar"><i style="width:66%"></i></div></div><b>🏢</b></div><div class="card stat span-4" style="border-left-color:var(--success)"><div><p>Inspectores activos</p><div class="num" style="color:var(--success)">18</div><div class="bar"><i style="width:90%;background:var(--success)"></i></div></div><b>🪪</b></div><div class="card stat span-4" style="border-left-color:var(--warn)"><div><p>Citas de hoy</p><div class="num" style="color:var(--warn)">126</div><div class="bar"><i style="width:80%;background:var(--warn)"></i></div></div><b>📅</b></div><div class="card span-12"><div class="vehicle-row"><h2>Solicitudes de Talleres</h2><button class="btn secondary" onclick="toast('Listado actualizado')">Actualizar</button></div><div class="admin-table"><div class="row"><b>Auto Centro del Caribe</b><span>Santo Domingo · Documentos completos</span><button class="btn" onclick="toast('Taller aprobado')">Aprobar</button></div><div class="row"><b>ITV Norte Express</b><span>Santiago · Pendiente RNC</span><button class="btn danger" onclick="toast('Solicitud rechazada')">Rechazar</button></div></div></div></div></section>
-<section id="supervision" class="view"><div class="crumb">Inicio <b>/</b> Administración <b>/</b> Inspecciones</div><h1>Supervisión de Inspecciones</h1><p>Vista administrativa para monitorear inspecciones, resultados y alertas operativas.</p><span class="pill">⌁ Monitoreo técnico en tiempo real</span><div class="grid" style="margin-top:22px"><div class="card stat span-6"><div><p>En proceso</p><div class="num">12</div><div class="bar"><i style="width:60%"></i></div></div><b>⏱️</b></div><div class="card stat span-6" style="border-left-color:var(--success)"><div><p>Aprobadas hoy</p><div class="num" style="color:var(--success)">84</div><div class="bar"><i style="width:72%;background:var(--success)"></i></div></div><b>✅</b></div><div class="card span-12"><h2>Cola de inspecciones</h2><button class="btn secondary" onclick="toast('Listado actualizado')">Actualizar</button><div class="admin-table" style="margin-top:12px"><div class="row"><b>Honda Civic</b><span>ITV Centro Sur · M. Santana</span><span class="badge ok">Aprobado</span></div><div class="row"><b>Toyota Hilux</b><span>AutoCentro Nacional · J. Rodríguez</span><span class="badge pending">En proceso</span></div></div></div></div></section>
-<section id="perfil" class="view"><div class="crumb">Inicio <b>/</b> Perfil</div><h1>Mi Perfil</h1><div class="card"><h2>Carlos Perez</h2><p>carlos.perez@email.com</p><button class="btn secondary">Cambiar foto</button> <button class="btn danger" onclick="logout()">Cerrar sesión</button></div></section>
-</main><button class="theme-fab" onclick="toggleTheme()">☀</button><div class="toast-wrap" id="toastWrap"></div>
-<div class="mobile-menu" id="menu"><div class="menu-panel"><div class="menu-head"><h2>Menú Principal</h2><button class="btn secondary" onclick="closeMenu()">×</button></div><div class="card vehicle"><div class="brand-mark">👤</div><div><b>Carlos Perez</b><p>carlos.perez@email.com</p></div></div><div class="menu-list" id="menuList"></div></div></div>
-<div class="modal" id="modal"><div class="modal-panel"><div class="menu-head"><h2>Añadir Vehículo</h2><button class="btn secondary" onclick="closeModal()">×</button></div><div class="field"><label>Marca</label><input id="marca" placeholder="Ej. Honda"></div><div class="field"><label>Modelo</label><input id="modelo" placeholder="Ej. Civic 2022"></div><div class="field"><label>Placa</label><input id="placa" placeholder="Ej. A123456"></div><button class="btn" onclick="addVehicle()">Guardar Vehículo</button></div></div>
-</div></div>
-<script>
-let role='user';let current='login';const nav=document.getElementById('nav'),menuList=document.getElementById('menuList');function setMode(m){document.body.classList.toggle('preview-mobile',m==='mobile');desktopBtn.classList.toggle('active',m==='desktop');mobileBtn.classList.toggle('active',m==='mobile')}function setRole(r){role=r;userBtn.classList.toggle('active',r==='user');adminBtn.classList.toggle('active',r==='admin')}function login(){go(role==='admin'?'admin':'dashboard');toast(role==='admin'?'Bienvenido al panel administrativo':'Bienvenido a EcoRevisión RD')}function views(){return role==='admin'?[['admin','Panel Admin','▦'],['supervision','Supervisión ITV','▤'],['perfil','Menú','☰']]:[['dashboard','Dashboard','⌂'],['inspeccion','Inspección','▤'],['marbete','Marbete','▣'],['perfil','Menú','☰']]}function renderNav(){nav.innerHTML='';menuList.innerHTML='<button onclick="toggleTheme();closeMenu()">☀ Cambiar Tema</button>';views().forEach(v=>{let b=document.createElement('button');b.innerHTML='<span>'+v[2]+'</span><span>'+v[1]+'</span>';b.className=current===v[0]?'active':'';b.onclick=()=>v[0]==='perfil'?openMenu():go(v[0]);nav.appendChild(b);if(v[0]!=='perfil')menuList.innerHTML+='<button onclick="go(\''+v[0]+'\');closeMenu()">'+v[2]+' '+v[1]+'</button>'});menuList.innerHTML+='<button onclick="go(\'perfil\');closeMenu()">👤 Editar Perfil</button><button style="color:var(--danger)" onclick="logout();closeMenu()">⇱ Cerrar Sesión</button>'}function go(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');current=id;document.getElementById('sidebar').style.display=id==='login'?'none':'';renderNav()}function openMenu(){document.getElementById('menu').classList.add('active')}function closeMenu(){document.getElementById('menu').classList.remove('active')}function openModal(){document.getElementById('modal').classList.add('active')}function closeModal(){document.getElementById('modal').classList.remove('active')}function toast(msg){let t=document.createElement('div');t.className='toast';t.innerHTML='✓ '+msg;toastWrap.appendChild(t);setTimeout(()=>t.remove(),2600)}function toggleTheme(){document.body.classList.toggle('light');toast('Tema actualizado')}function logout(){role='user';setRole('user');go('login')}function addVehicle(){let m=marca.value||'Honda',mo=modelo.value||'Civic 2022',p=placa.value||'A000000';vehicleList.insertAdjacentHTML('beforeend','<div class="vehicle-row"><div class="vehicle"><img src="https://conteudo.imguol.com.br/c/entretenimento/34/2020/10/09/honda-civic-2021-1602294772813_v2_1400x540.jpgx"><div><b>'+m+' '+mo+'</b><p>'+p.toUpperCase()+' · Recién añadido</p></div></div><span class="badge pending">En proceso</span></div>');closeModal();toast('Vehículo añadido correctamente')}renderNav();
-</script>
-</body></html>
+<body>
+    <!-- Premium Mesh Gradient Background -->
+    <div class="mesh-bg"></div>
+
+    <div id="app">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="hidden">
+            <div class="brand">
+                <img src="../Prototipo/Gemini_Generated_Image_pjlf84pjlf84pjlf-removebg-preview.png" onerror="this.onerror=null; this.src='logo.png';" alt="Logo" class="brand-logo">
+                <span class="brand-name">EcoRevisión</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="javascript:void(0)" class="nav-link active nav-user-only" onclick="app.navigate('dashboard')">
+                    <i class="ph ph-house"></i> <span>Dashboard</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-link nav-admin-only" onclick="app.navigate('admin-dashboard')">
+                    <i class="ph ph-squares-four"></i> <span>Panel Admin</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-link nav-user-only" onclick="app.navigate('reservas')">
+                    <i class="ph ph-calendar-blank"></i> <span>Agendar Cita</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-link nav-user-only" onclick="app.navigate('inspeccion')">
+                    <i class="ph ph-clipboard-text"></i> <span>Inspección</span>
+                    <span class="nav-badge">1</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-link nav-admin-only" onclick="app.navigate('admin-inspecciones')">
+                    <i class="ph ph-clipboard-text"></i> <span>Supervisión ITV</span>
+                    <span class="nav-badge">12</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-link nav-user-only" onclick="app.navigate('marbete')">
+                    <i class="ph ph-certificate"></i> <span>Marbete Digital</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-link nav-hide-mobile nav-user-only" onclick="app.navigate('pagos')">
+                    <i class="ph ph-money"></i> <span>Pagos</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-link nav-hide-mobile nav-user-only" onclick="app.navigate('historial')">
+                    <i class="ph ph-clock-counter-clockwise"></i> <span>Historial</span>
+                </a>
+                <!-- Mobile only Menu trigger -->
+                <a href="javascript:void(0)" class="nav-link nav-mobile-only" onclick="app.toggleMobileMenu()">
+                    <i class="ph ph-list"></i> <span>Menú</span>
+                </a>
+            </nav>
+            
+            <div style="margin-top: auto;">
+                
+                
+                <div class="user-profile" onclick="app.navigate('perfil')">
+                    <div class="avatar">
+                        <i class="ph ph-user text-muted"></i>
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <span style="font-size: 0.85rem; font-weight: 500;">Carlos Perez</span>
+                        <span style="font-size: 0.75rem; color: var(--color-text-secondary);">Ver Perfil</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main id="main-content">
+            
+            <!-- Login View -->
+            <section id="login" class="view active">
+                <div class="surface login-box">
+                    <div style="text-align: center; margin-bottom: var(--space-4);">
+                        <img src="../Prototipo/Gemini_Generated_Image_pjlf84pjlf84pjlf-removebg-preview.png" onerror="this.onerror=null; this.src='logo.png';" alt="Logo" style="height: 60px; background: white; padding: 10px; border-radius: 12px; margin-bottom: 20px;">
+                        <h2>Bienvenido de Nuevo</h2>
+                        <p class="text-muted">Ingresa tus credenciales para acceder.</p>
+                    </div>
+                    
+                    <form onsubmit="event.preventDefault(); app.login();">
+                        <div class="form-group">
+                            <label>Cédula / Pasaporte</label>
+                            <input type="text" class="input-modern" placeholder="000-0000000-0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" class="input-modern" placeholder="••••••••" required>
+                        </div>
+
+                        <div class="login-options-panel">
+                            <div class="login-option-row">
+                                <span class="login-option-label"><i class="ph ph-devices"></i> Vista del prototipo</span>
+                                <div class="login-toggle-group" role="group" aria-label="Cambiar vista del prototipo">
+                                    <button type="button" id="preview-desktop-btn" class="login-toggle active" onclick="app.setPreviewMode('desktop')"><i class="ph ph-monitor"></i> Desktop</button>
+                                    <button type="button" id="preview-mobile-btn" class="login-toggle" onclick="app.setPreviewMode('mobile')"><i class="ph ph-device-mobile"></i> Móvil</button>
+                                </div>
+                            </div>
+                            <div class="login-option-row">
+                                <span class="login-option-label"><i class="ph ph-user-switch"></i> Tipo de acceso</span>
+                                <div class="login-toggle-group" role="group" aria-label="Seleccionar tipo de acceso">
+                                    <button type="button" id="role-user-btn" class="login-toggle active" onclick="app.selectLoginRole('usuario')"><i class="ph ph-user"></i> Usuario</button>
+                                    <button type="button" id="role-admin-btn" class="login-toggle" onclick="app.selectLoginRole('admin')"><i class="ph ph-shield-check"></i> Admin</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="login-submit-btn" class="btn-primary" style="width: 100%; margin-top: var(--space-2);">
+                            Iniciar Sesión como Usuario <i class="ph ph-arrow-right"></i>
+                        </button>
+                    </form>
+                    <div style="text-align: center; margin-top: var(--space-4);">
+                        <a href="javascript:void(0)" onclick="app.navigate('forgot-password')" class="text-muted" style="font-size: 0.9rem; text-decoration: none;">¿Olvidaste tu contraseña?</a>
+                    <a href="javascript:void(0)" onclick="app.navigate('registro')" class="text-muted" style="font-size: 0.9rem; text-decoration: none; display: block; margin-top: 8px;"><i class="ph ph-user-plus"></i> Crear cuenta nueva</a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Forgot Password View -->
+            <section id="forgot-password" class="view">
+                <div class="surface login-box">
+                    <div style="text-align: center; margin-bottom: var(--space-4);">
+                        <div class="avatar" style="margin: 0 auto 16px auto; width: 64px; height: 64px; background: rgba(255,81,0,0.1); color: var(--color-accent); font-size: 24px;">
+                            <i class="ph ph-key"></i>
+                        </div>
+                        <h2>Recuperar Acceso</h2>
+                        <p class="text-muted">Ingresa tu correo para recibir un enlace de recuperación.</p>
+                    </div>
+                    
+                    <form onsubmit="event.preventDefault(); app.showToast('Enlace enviado. Revisa tu correo.', 'success'); app.navigate('login');">
+                        <div class="form-group">
+                            <label>Correo Electrónico</label>
+                            <input type="email" class="input-modern" placeholder="usuario@correo.com" required>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%; margin-top: var(--space-2);">
+                            Enviar Enlace <i class="ph ph-paper-plane-right"></i>
+                        </button>
+                    </form>
+                    <div style="text-align: center; margin-top: var(--space-4);">
+                        <a href="javascript:void(0)" onclick="app.navigate('login')" class="text-muted" style="font-size: 0.9rem; text-decoration: none;"><i class="ph ph-arrow-left"></i> Volver al Login</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard View -->
+            
+            <!-- Dashboard View -->
+            <section id="dashboard" class="view">
+                <header class="view-header">
+                    <div class="breadcrumbs">Inicio <span>/</span> Resumen</div>
+                    <h2 class="page-title text-gradient">Dashboard</h2>
+                    <p class="text-muted">Control total sobre el estado de tus vehículos.</p>
+                    <div class="status-pill">
+                        <i class="ph ph-check-circle"></i> Sistemas conectados
+                    </div>
+                </header>
+
+                <div class="bento-grid">
+                    <!-- Stats - Redesigned with gradient accent cards -->
+                    <div class="stat-card-accent span-4" style="border-left-color: var(--color-accent);">
+                        <div class="stat-mini">
+                            <div style="flex: 1;">
+                                <div class="stat-label">Vehículos Activos</div>
+                                <div class="stat-value">3</div>
+                                <div class="stat-bar"><div style="width: 100%; height: 100%; background: var(--color-accent); border-radius: 99px;"></div></div>
+                            </div>
+                            <div class="stat-mini-icon" style="background: rgba(232,99,10,0.15); color: var(--color-accent); width: 56px; height: 56px; font-size: 1.5rem;"><i class="ph ph-car-profile"></i></div>
+                        </div>
+                    </div>
+                    <div class="stat-card-accent span-4" style="border-left-color: var(--color-warning);">
+                        <div class="stat-mini">
+                            <div style="flex: 1;">
+                                <div class="stat-label">Inspecciones Pendientes</div>
+                                <div class="stat-value" style="color: var(--color-warning);">1</div>
+                                <div class="stat-bar"><div style="width: 33%; height: 100%; background: var(--color-warning); border-radius: 99px;"></div></div>
+                            </div>
+                            <div class="stat-mini-icon" style="color: var(--color-warning); background: rgba(251,191,36,0.15); width: 56px; height: 56px; font-size: 1.5rem;"><i class="ph ph-clipboard-text"></i></div>
+                        </div>
+                    </div>
+                    <div class="stat-card-accent span-4" style="border-left-color: var(--color-success);">
+                        <div class="stat-mini">
+                            <div style="flex: 1;">
+                                <div class="stat-label">Multas Pendientes</div>
+                                <div class="stat-value" style="color: var(--color-success);">0</div>
+                                <div class="stat-bar"><div style="width: 0%; height: 100%; background: var(--color-success); border-radius: 99px;"></div></div>
+                            </div>
+                            <div class="stat-mini-icon" style="color: var(--color-success); background: rgba(52,211,153,0.15); width: 56px; height: 56px; font-size: 1.5rem;"><i class="ph ph-shield-check"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- Vehiculos Principales -->
+                    <div class="bento-item surface span-8">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 12px;">
+                            <h3>Mi Flota de Vehículos</h3>
+                            <button class="btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="app.addVehicle()"><i class="ph ph-plus"></i> Añadir</button>
+                        </div>
+                        
+                        <div class="vehicle-list">
+                            <div class="vehicle-item" onclick="this.classList.toggle('expanded')">
+                                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                    <div class="v-info" style="align-items: center; gap: 16px;">
+                                        <div class="v-image" style="width: 80px; height: 50px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                                            <img src="civic.jpg" alt="Honda Civic 2022" style="width: 100%; height: 100%; object-fit: contain;">
+                                        </div>
+                                        <div class="v-details">
+                                            <h4>Honda Civic 2022</h4>
+                                            <p>A345678 • Renovado</p>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <span class="status-badge success">Aprobado</span>
+                                        <i class="ph ph-caret-down text-muted"></i>
+                                    </div>
+                                </div>
+                                <div class="v-extra-details">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.85rem; color: var(--color-text-secondary);">
+                                        <div><strong>Próxima Inspección:</strong> 15 Oct 2026</div>
+                                        <div><strong>Seguro:</strong> Vigente</div>
+                                        <div><strong>Año:</strong> 2022</div>
+                                        <div><strong>Color:</strong> Gris</div>
+                                    </div>
+                                    <div style="margin-top: 12px; display: flex; gap: 8px;">
+                                        <button class="btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="event.stopPropagation(); app.navigate('historial')">Ver Historial</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="vehicle-item" onclick="this.classList.toggle('expanded')">
+                                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                    <div class="v-info" style="align-items: center; gap: 16px;">
+                                        <div class="v-image" style="width: 80px; height: 50px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                                            <img src="https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&q=80&w=150" alt="Toyota Hilux 2019" style="width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
+                                        <div class="v-details">
+                                            <h4>Toyota Hilux 2019</h4>
+                                            <p>L987654 • Requiere Inspección</p>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <span class="status-badge warning">Pendiente</span>
+                                        <i class="ph ph-caret-down text-muted"></i>
+                                    </div>
+                                </div>
+                                <div class="v-extra-details">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.85rem; color: var(--color-text-secondary);">
+                                        <div><strong>Inspección Pendiente:</strong> Requerida</div>
+                                        <div><strong>Seguro:</strong> Vigente</div>
+                                        <div><strong>Año:</strong> 2019</div>
+                                        <div><strong>Color:</strong> Arena</div>
+                                    </div>
+                                    <div style="margin-top: 12px; display: flex; gap: 8px;">
+                                        <button class="btn-primary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="event.stopPropagation(); app.navigate('inspeccion')">Ir a Inspección</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Acciones Rapidas -->
+                    <div class="bento-item surface span-4">
+                        <h3 style="border-bottom: 1px solid var(--color-border); padding-bottom: 12px;">Acciones Rápidas</h3>
+                        <div class="quick-actions">
+                            <div class="qa-card" onclick="app.navigate('reservas')">
+                                <i class="ph ph-calendar-plus"></i>
+                                <div style="font-size: 0.8rem; font-weight: 500;">Cita Previa</div>
+                            </div>
+                            <div class="qa-card" onclick="app.navigate('inspeccion')">
+                                <i class="ph ph-magnifying-glass"></i>
+                                <div style="font-size: 0.8rem; font-weight: 500;">Inspección</div>
+                            </div>
+                            <div class="qa-card" onclick="app.navigate('marbete')">
+                                <i class="ph ph-certificate"></i>
+                                <div style="font-size: 0.8rem; font-weight: 500;">Marbete</div>
+                            </div>
+                            <div class="qa-card" style="background: var(--color-accent); color: #fff; border: none;" onclick="app.navigate('pagos')">
+                                <i class="ph ph-credit-card" style="font-size: 28px; margin-bottom: 8px;"></i>
+                                <div style="font-size: 0.8rem; font-weight: 500;">Pagos</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Admin Dashboard View -->
+            <section id="admin-dashboard" class="view">
+                <header class="view-header">
+                    <div class="breadcrumbs">Inicio <span>/</span> Administración</div>
+                    <h2 class="page-title text-gradient">Panel Administrativo</h2>
+                    <p class="text-muted">Control ejecutivo de talleres, inspectores, citas y certificaciones.</p>
+                    <div class="status-pill">
+                        <i class="ph ph-shield-check"></i> Sesión administrativa activa
+                    </div>
+                </header>
+
+                <div class="bento-grid">
+                    <div class="stat-card-accent span-4" style="border-left-color: var(--color-accent);">
+                        <div class="stat-mini">
+                            <div style="flex: 1;">
+                                <div class="stat-label">Talleres por validar</div>
+                                <div class="stat-value">4</div>
+                                <div class="stat-bar"><div style="width: 66%; height: 100%; background: var(--color-accent); border-radius: 99px;"></div></div>
+                            </div>
+                            <div class="stat-mini-icon" style="background: rgba(232,99,10,0.15); color: var(--color-accent); width: 56px; height: 56px; font-size: 1.5rem;"><i class="ph ph-garage"></i></div>
+                        </div>
+                    </div>
+                    <div class="stat-card-accent span-4" style="border-left-color: var(--color-success);">
+                        <div class="stat-mini">
+                            <div style="flex: 1;">
+                                <div class="stat-label">Inspectores activos</div>
+                                <div class="stat-value" style="color: var(--color-success);">18</div>
+                                <div class="stat-bar"><div style="width: 90%; height: 100%; background: var(--color-success); border-radius: 99px;"></div></div>
+                            </div>
+                            <div class="stat-mini-icon" style="color: var(--color-success); background: rgba(52,211,153,0.15); width: 56px; height: 56px; font-size: 1.5rem;"><i class="ph ph-identification-card"></i></div>
+                        </div>
+                    </div>
+                    <div class="stat-card-accent span-4" style="border-left-color: var(--color-warning);">
+                        <div class="stat-mini">
+                            <div style="flex: 1;">
+                                <div class="stat-label">Citas de hoy</div>
+                                <div class="stat-value" style="color: var(--color-warning);">126</div>
+                                <div class="stat-bar"><div style="width: 78%; height: 100%; background: var(--color-warning); border-radius: 99px;"></div></div>
+                            </div>
+                            <div class="stat-mini-icon" style="color: var(--color-warning); background: rgba(251,191,36,0.15); width: 56px; height: 56px; font-size: 1.5rem;"><i class="ph ph-calendar-check"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="bento-item surface span-8">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 12px; gap: 12px; flex-wrap: wrap;">
+                            <div>
+                                <h3>Solicitudes de Talleres</h3>
+                                <p class="text-muted" style="font-size: 0.85rem;">Validación administrativa pendiente.</p>
+                            </div>
+                            <button class="btn-secondary" style="padding: 8px 14px; font-size: 0.85rem;" onclick="app.showToast('Listado actualizado', 'success')"><i class="ph ph-arrows-clockwise"></i> Actualizar</button>
+                        </div>
+                        <div class="admin-list">
+                            <div class="admin-row">
+                                <div class="admin-row-main">
+                                    <strong>Auto Centro del Caribe</strong>
+                                    <span><i class="ph ph-map-pin"></i> Santo Domingo · RNC validado · 12 documentos</span>
+                                </div>
+                                <div class="admin-row-actions">
+                                    <button class="btn-secondary compact danger" onclick="event.stopPropagation(); app.processAdminAction(this, 'Solicitud rechazada visualmente')">Rechazar</button>
+                                    <button class="btn-primary compact" onclick="event.stopPropagation(); app.processAdminAction(this, 'Taller aprobado correctamente')">Aprobar</button>
+                                </div>
+                            </div>
+                            <div class="admin-row">
+                                <div class="admin-row-main">
+                                    <strong>ITV Norte Express</strong>
+                                    <span><i class="ph ph-map-pin"></i> Santiago · Seguro pendiente · 9 documentos</span>
+                                </div>
+                                <div class="admin-row-actions">
+                                    <button class="btn-secondary compact" onclick="event.stopPropagation(); app.processAdminAction(this, 'Se solicitó completar documentos')">Pedir corrección</button>
+                                    <button class="btn-primary compact" onclick="event.stopPropagation(); app.processAdminAction(this, 'Taller marcado para revisión final')">Revisar</button>
+                                </div>
+                            </div>
+                            <div class="admin-row">
+                                <div class="admin-row-main">
+                                    <strong>Revisión Técnica Sur</strong>
+                                    <span><i class="ph ph-map-pin"></i> Baní · Documentación completa · 15 documentos</span>
+                                </div>
+                                <div class="admin-row-actions">
+                                    <button class="btn-secondary compact danger" onclick="event.stopPropagation(); app.processAdminAction(this, 'Solicitud rechazada visualmente')">Rechazar</button>
+                                    <button class="btn-primary compact" onclick="event.stopPropagation(); app.processAdminAction(this, 'Taller aprobado correctamente')">Aprobar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bento-item surface span-4">
+                        <h3 style="border-bottom: 1px solid var(--color-border); padding-bottom: 12px; margin-bottom: 16px;">Alertas Operativas</h3>
+                        <div class="admin-alert warning"><i class="ph ph-warning-circle"></i><span>2 inspectores requieren renovación de credenciales.</span></div>
+                        <div class="admin-alert success"><i class="ph ph-check-circle"></i><span>99.2% de disponibilidad del servicio.</span></div>
+                        <div class="admin-alert danger"><i class="ph ph-siren"></i><span>1 marbete reportado como inválido.</span></div>
+                    </div>
+
+                    <div class="bento-item surface span-6">
+                        <h3 style="margin-bottom: 20px;"><i class="ph ph-identification-badge" style="color: var(--color-accent);"></i> Inspectores</h3>
+                        <div class="mini-table">
+                            <div class="mini-table-row header"><span>Inspector</span><span>Taller</span><span>Estado</span></div>
+                            <div class="mini-table-row"><span>J. Rodríguez</span><span>Naco</span><span class="status-badge success">Activo</span></div>
+                            <div class="mini-table-row"><span>M. Santana</span><span>Herrera</span><span class="status-badge warning">Revisar</span></div>
+                            <div class="mini-table-row"><span>L. Gómez</span><span>Baní</span><span class="status-badge success">Activo</span></div>
+                        </div>
+                    </div>
+
+                    <div class="bento-item surface span-6">
+                        <h3 style="margin-bottom: 20px;"><i class="ph ph-chart-line-up" style="color: var(--color-accent);"></i> Rendimiento del Día</h3>
+                        <div class="progress-metric"><div><strong>Inspecciones aprobadas</strong><span>82%</span></div><div class="stat-bar"><div style="width:82%;height:100%;background:var(--color-success);border-radius:99px;"></div></div></div>
+                        <div class="progress-metric"><div><strong>Rechazos técnicos</strong><span>11%</span></div><div class="stat-bar"><div style="width:11%;height:100%;background:var(--color-danger);border-radius:99px;"></div></div></div>
+                        <div class="progress-metric"><div><strong>Citas completadas</strong><span>76%</span></div><div class="stat-bar"><div style="width:76%;height:100%;background:var(--color-accent);border-radius:99px;"></div></div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Inspecciones View -->
+            <section id="admin-inspecciones" class="view admin-view">
+                <header class="view-header">
+                    <div class="breadcrumbs">Inicio <span>/</span> Administración <span>/</span> Inspecciones</div>
+                    <h2 class="page-title text-gradient">Supervisión de Inspecciones</h2>
+                    <p class="text-muted">Vista administrativa para monitorear inspecciones, resultados y alertas operativas.</p>
+                    <div class="status-pill">
+                        <i class="ph ph-pulse"></i> Monitoreo técnico en tiempo real
+                    </div>
+                </header>
+
+                <div class="bento-grid">
+                    <div class="stat-card-accent span-3" style="border-left-color: var(--color-accent);">
+                        <div class="stat-mini">
+                            <div style="flex: 1;">
+                                <div class="stat-label">En proceso</div>
+                                <div class="stat-value">12</div>
+                                <div class="stat-bar"><div style="width: 65%; height: 100%; background: var(--color-accent); border-radius: 99px;"></div></div>
+                            </div>
+                            <div class="stat-mini-icon" style="color:var(--color-accent);background:rgba(232,99,10,0.15);"><i class="ph ph-timer"></i></div>
+                        </div>
+                    </div>
+                    <div class="stat-card-accent span-3" style="border-left-color: var(--color-success);">
+                        <div class="stat-mini">
+                            <div style="flex: 1;">
+                                <div class="stat-label">Aprobadas hoy</div>
+                                <div class="stat-value" style="color:var(--color-success);">84</div>
+                                <div class="stat-bar"><div style="width: 84%; height: 100%; background: var(--color-success); border-radius: 99px;"></div></div>
+                            </div>
+                            <div class="stat-mini-icon" style="color:var(--color-success);background:rgba(52,211,153,0.15);"><i class="ph ph-check-circle"></i></div>
+                        </div>
+                    </div>
+                    <div class="stat-card-accent span-3" style="border-left-color: var(--color-warning);">
+                        <div class="stat-mini">
+                            <div style="flex: 1;">
+                                <div class="stat-label">Condicionadas</div>
+                                <div class="stat-value" style="color:var(--color-warning);">9</div>
+                                <div class="stat-bar"><div style="width: 28%; height: 100%; background: var(--color-warning); border-radius: 99px;"></div></div>
+                            </div>
+                            <div class="stat-mini-icon" style="color:var(--color-warning);background:rgba(251,191,36,0.15);"><i class="ph ph-warning-circle"></i></div>
+                        </div>
+                    </div>
+                    <div class="stat-card-accent span-3" style="border-left-color: var(--color-danger);">
+                        <div class="stat-mini">
+                            <div style="flex: 1;">
+                                <div class="stat-label">Rechazadas</div>
+                                <div class="stat-value" style="color:var(--color-danger);">6</div>
+                                <div class="stat-bar"><div style="width: 18%; height: 100%; background: var(--color-danger); border-radius: 99px;"></div></div>
+                            </div>
+                            <div class="stat-mini-icon" style="color:var(--color-danger);background:rgba(248,113,113,0.15);"><i class="ph ph-x-circle"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="bento-item surface span-8">
+                        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--color-border);padding-bottom:12px;margin-bottom:16px;">
+                            <div>
+                                <h3>Cola de Inspecciones</h3>
+                                <p class="text-muted" style="font-size:0.85rem;">Resultados recientes enviados por los talleres autorizados.</p>
+                            </div>
+                            <button class="btn-secondary compact" onclick="app.showToast('Cola actualizada visualmente', 'success')"><i class="ph ph-arrows-clockwise"></i> Actualizar</button>
+                        </div>
+                        <div class="mini-table admin-inspection-table">
+                            <div class="mini-table-row header"><span>Vehículo</span><span>Taller / Inspector</span><span>Estado</span></div>
+                            <div class="mini-table-row"><span><strong>Toyota Hilux</strong><br><small class="text-muted">L987654 · ID #INSP-84729</small></span><span>AutoCentro Nacional<br><small class="text-muted">J. Rodríguez</small></span><span class="status-badge warning">En proceso</span></div>
+                            <div class="mini-table-row"><span><strong>Honda Civic</strong><br><small class="text-muted">A345678 · ID #INSP-84730</small></span><span>ITV Centro Sur<br><small class="text-muted">M. Santana</small></span><span class="status-badge success">Aprobado</span></div>
+                            <div class="mini-table-row"><span><strong>Kia K5</strong><br><small class="text-muted">G552210 · ID #INSP-84731</small></span><span>Revisión Técnica Sur<br><small class="text-muted">L. Gómez</small></span><span class="status-badge warning">Condicionado</span></div>
+                            <div class="mini-table-row"><span><strong>Nissan Frontier</strong><br><small class="text-muted">P772441 · ID #INSP-84732</small></span><span>ITV Norte Express<br><small class="text-muted">R. Méndez</small></span><span class="status-badge danger">Rechazado</span></div>
+                        </div>
+                    </div>
+
+                    <div class="bento-item surface span-4">
+                        <h3 style="border-bottom:1px solid var(--color-border);padding-bottom:12px;margin-bottom:16px;">Acciones del Administrador</h3>
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            <button class="btn-primary" onclick="app.processAdminAction(this, 'Reporte técnico validado')"><i class="ph ph-stamp"></i> Validar reporte</button>
+                            <button class="btn-secondary" onclick="app.processAdminAction(this, 'Observación enviada al taller')"><i class="ph ph-chat-circle-text"></i> Solicitar corrección</button>
+                            <button class="btn-secondary danger" onclick="app.processAdminAction(this, 'Inspección marcada para auditoría')"><i class="ph ph-siren"></i> Auditar caso</button>
+                        </div>
+                        <div style="margin-top:20px;">
+                            <div class="admin-alert warning"><i class="ph ph-warning-circle"></i><span>3 inspecciones tienen fotos pendientes.</span></div>
+                            <div class="admin-alert danger"><i class="ph ph-seal-warning"></i><span>1 resultado requiere revisión manual.</span></div>
+                        </div>
+                    </div>
+
+                    <div class="bento-item surface span-12">
+                        <h3 style="margin-bottom:16px;"><i class="ph ph-chart-bar" style="color:var(--color-accent);"></i> Resumen por Taller</h3>
+                        <div class="bento-grid">
+                            <div class="span-4 admin-summary-card"><strong>AutoCentro Nacional</strong><span>42 inspecciones · 92% aprobación</span><div class="stat-bar"><div style="width:92%;height:100%;background:var(--color-success);border-radius:99px;"></div></div></div>
+                            <div class="span-4 admin-summary-card"><strong>ITV Centro Sur</strong><span>31 inspecciones · 81% aprobación</span><div class="stat-bar"><div style="width:81%;height:100%;background:var(--color-accent);border-radius:99px;"></div></div></div>
+                            <div class="span-4 admin-summary-card"><strong>Revisión Técnica Sur</strong><span>26 inspecciones · 76% aprobación</span><div class="stat-bar"><div style="width:76%;height:100%;background:var(--color-warning);border-radius:99px;"></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reservas View -->
+            <section id="reservas" class="view">
+                <header class="view-header">
+                    <div class="breadcrumbs">Inicio <span>/</span> Agendar Cita</div>
+                    <h2 class="page-title text-gradient">Agendar Inspección</h2>
+                    <p class="text-muted">Selecciona un taller certificado y coordina tu visita.</p>
+                    <div style="display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap;" id="reserva-steps-header">
+                        <div class="step-pill active-step" id="reserva-pill-1"><span>1</span> Taller</div>
+                        <div class="step-pill" id="reserva-pill-2"><span>2</span> Fecha</div>
+                        <div class="step-pill" id="reserva-pill-3"><span>3</span> Confirmar</div>
+                    </div>
+                </header>
+
+                <div class="bento-grid">
+                    <!-- STEP 1: Seleccionar Taller -->
+                    <div id="reserva-step-1" class="span-12 bento-grid" style="display: grid;">
+                        <div class="bento-item surface span-4">
+                            <h3 style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;"><i class="ph ph-funnel" style="color: var(--color-accent);"></i> Filtros</h3>
+                            <div class="form-group">
+                                <label>Provincia</label>
+                                <select class="input-modern">
+                                    <option>Distrito Nacional</option>
+                                    <option>Santo Domingo</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Vehículo</label>
+                                <select class="input-modern">
+                                    <option>Toyota Hilux 2019 (L987654)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="bento-item surface span-8">
+                            <h3 style="margin-bottom: 16px;">Talleres Disponibles</h3>
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="padding: 16px; border: 2px solid var(--color-accent); border-radius: var(--radius-md); cursor: pointer; background: rgba(232,99,10,0.06); display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <div style="font-weight: 600; font-size: 1.1rem;">AutoCentro Nacional — Naco</div>
+                                        <div class="text-muted" style="font-size: 0.85rem; margin-top: 4px;"><i class="ph ph-map-pin"></i> Av. Tiradentes #45, Naco · 2.1 km</div>
+                                    </div>
+                                    <span class="status-badge success"><i class="ph ph-star"></i> 4.8</span>
+                                </div>
+                                <div style="padding: 16px; border: 1px solid var(--color-border); border-radius: var(--radius-md); cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <div style="font-weight: 600; font-size: 1.1rem;">ITV Centro Sur</div>
+                                        <div class="text-muted" style="font-size: 0.85rem; margin-top: 4px;"><i class="ph ph-map-pin"></i> Zona Industrial de Herrera · 5.4 km</div>
+                                    </div>
+                                    <span class="status-badge success"><i class="ph ph-star"></i> 4.5</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 24px; text-align: right;">
+                                <button class="btn-primary" onclick="app.setStep('reserva', 2)">Continuar <i class="ph ph-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Seleccionar Fecha -->
+                    <div id="reserva-step-2" class="span-12 bento-grid" style="display: none;">
+                        <div class="bento-item surface span-12">
+                            <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--color-border); padding-bottom: 16px;">
+                                <button class="btn-icon" onclick="app.setStep('reserva', 1)"><i class="ph ph-arrow-left"></i></button>
+                                <h3>Seleccionar Fecha y Hora</h3>
+                            </div>
+                            
+                            <div class="form-group" style="max-width: 300px; margin-bottom: 24px;">
+                                <label>Fecha Preferida</label>
+                                <input type="date" class="input-modern" value="2026-07-15">
+                            </div>
+
+                            <p class="text-muted" style="margin-bottom: 12px; font-weight: 500;">Horarios Disponibles — Miércoles 15 Jul 2026</p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;">
+                                <button class="time-slot-btn">08:00 AM</button>
+                                <button class="time-slot-btn">09:00 AM</button>
+                                <button class="time-slot-btn active-slot">10:30 AM ✓</button>
+                                <button class="time-slot-btn">11:00 AM</button>
+                                <button class="time-slot-btn" disabled>02:00 PM</button>
+                                <button class="time-slot-btn">03:30 PM</button>
+                            </div>
+
+                            <div style="text-align: right;">
+                                <button class="btn-primary" onclick="app.setStep('reserva', 3)">Continuar <i class="ph ph-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Confirmación -->
+                    <div id="reserva-step-3" class="span-12 bento-grid" style="display: none;">
+                        <div class="bento-item surface span-12">
+                            <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--color-border); padding-bottom: 16px;">
+                                <button class="btn-icon" onclick="app.setStep('reserva', 2)"><i class="ph ph-arrow-left"></i></button>
+                                <h3>Confirmación de Cita</h3>
+                            </div>
+
+                            <div style="background: var(--color-bg-body); border-radius: var(--radius-md); padding: 24px; margin-bottom: 24px; border: 1px solid var(--color-border);">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                                    <div>
+                                        <p class="text-muted" style="font-size: 0.85rem;">Taller Seleccionado</p>
+                                        <p style="font-weight: 600; font-size: 1.1rem;">AutoCentro Nacional — Naco</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-muted" style="font-size: 0.85rem;">Fecha y Hora</p>
+                                        <p style="font-weight: 600; font-size: 1.1rem;">Miércoles 15 Jul 2026, 10:30 AM</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-muted" style="font-size: 0.85rem;">Vehículo</p>
+                                        <p style="font-weight: 600; font-size: 1.1rem;">Toyota Hilux 2019 (L987654)</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-muted" style="font-size: 0.85rem;">Tarifa Total a Pagar en Taller</p>
+                                        <p style="font-weight: 700; font-size: 1.2rem; color: var(--color-success);">RD$1,770.00</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                                <button class="btn-secondary" onclick="app.navigate('dashboard')">Cancelar</button>
+                                <button class="btn-primary" onclick="app.processAction(this, '¡Cita confirmada! Recibirás un recordatorio.', 'dashboard', 'Confirmando...')">
+                                    <i class="ph ph-calendar-check"></i> Confirmar Cita
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Inspección View -->
+            <section id="inspeccion" class="view">
+                <header class="view-header">
+                    <div class="breadcrumbs">Inicio <span>/</span> Módulo Inspector</div>
+                    <h2 class="page-title text-gradient">Captura de Inspección</h2>
+                    <p class="text-muted">Vista técnica para el inspector certificado.</p>
+                    <div style="display: flex; gap: 8px; margin-top: 16px; align-items: center;" id="insp-progress-container">
+                        <div id="insp-prog-1" style="flex: 1; height: 6px; background: var(--color-accent); border-radius: 99px;"></div>
+                        <div id="insp-prog-2" style="flex: 1; height: 6px; background: var(--color-border); border-radius: 99px;"></div>
+                        <div id="insp-prog-3" style="flex: 1; height: 6px; background: var(--color-border); border-radius: 99px;"></div>
+                        <span id="insp-prog-text" class="text-muted" style="font-size: 0.75rem; white-space: nowrap; margin-left: 8px;">1 / 3 completado</span>
+                    </div>
+                </header>
+
+                <div class="bento-grid">
+                    <!-- Cabecera del Vehiculo (Side Panel on Desktop) -->
+                    <div class="bento-item surface span-4" style="display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; height: fit-content;">
+                        <div class="v-image" style="width: 100%; height: 160px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); background: var(--color-bg-body);">
+                            <img src="https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&q=80&w=400" alt="Toyota Hilux 2019" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div>
+                            <h3>Toyota Hilux 2019</h3>
+                            <p class="text-muted" style="margin-top: 4px; font-size: 0.9rem;">Chasis: JTEKT8284849202<br>Placa: L987654</p>
+                        </div>
+                        <div style="background: var(--color-warning); color: #000; font-size: 0.85rem; font-weight: 700; padding: 10px 20px; border-radius: 999px; width: 100%; text-align: center;">
+                            ID #INSP-84729
+                        </div>
+                        <div style="width: 100%; border-top: 1px solid var(--color-border); padding-top: 16px; margin-top: 8px;">
+                            <p style="font-size: 0.85rem; color: var(--color-text-secondary);"><i class="ph ph-info"></i> Siga los pasos a la derecha para completar la captura técnica.</p>
+                        </div>
+                    </div>
+
+                    <!-- STEP 1: Emisiones -->
+                    <div id="insp-step-1" class="span-8 bento-grid" style="display: grid;">
+                        <div class="bento-item surface span-12">
+                            <h4 style="margin-bottom: 20px; color: var(--color-accent); display: flex; align-items: center; gap: 8px;"><i class="ph ph-wind"></i> 1. Emisiones de Gases</h4>
+                            <div style="display: flex; flex-direction: column; gap: 20px; max-width: 600px;">
+                                <label class="custom-toggle">
+                                    <span class="toggle-text">CO dentro de parámetros normales (Menor a 0.5%)</span>
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <label class="custom-toggle">
+                                    <span class="toggle-text">HC dentro de parámetros normales (Menor a 100 ppm)</span>
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <label class="custom-toggle">
+                                    <span class="toggle-text">Fuga en sistema de escape detectada</span>
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div style="margin-top: 24px; text-align: right; border-top: 1px solid var(--color-border); padding-top: 16px;">
+                                <button class="btn-primary" onclick="app.setStep('insp', 2)">Siguiente: Frenos <i class="ph ph-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Frenos -->
+                    <div id="insp-step-2" class="span-8 bento-grid" style="display: none;">
+                        <div class="bento-item surface span-12">
+                            <h4 style="margin-bottom: 20px; color: var(--color-accent); display: flex; align-items: center; gap: 8px;"><i class="ph ph-car"></i> 2. Sistema de Frenos</h4>
+                            <div style="display: flex; flex-direction: column; gap: 20px; max-width: 600px;">
+                                <label class="custom-toggle">
+                                    <span class="toggle-text">Eficacia de frenado superior al 50%</span>
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <label class="custom-toggle">
+                                    <span class="toggle-text">Desequilibrio entre ejes menor al 30%</span>
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <label class="custom-toggle">
+                                    <span class="toggle-text">Freno de estacionamiento defectuoso</span>
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div style="margin-top: 24px; display: flex; justify-content: space-between; border-top: 1px solid var(--color-border); padding-top: 16px;">
+                                <button class="btn-secondary" onclick="app.setStep('insp', 1)"><i class="ph ph-arrow-left"></i> Atrás</button>
+                                <button class="btn-primary" onclick="app.setStep('insp', 3)">Siguiente: Decisión <i class="ph ph-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Decisión y Firma -->
+                    <div id="insp-step-3" class="span-8 bento-grid" style="display: none;">
+                        <div class="bento-item surface span-12">
+                            <h4 style="margin-bottom: 20px; color: var(--color-accent); display: flex; align-items: center; gap: 8px;"><i class="ph ph-check-circle"></i> 3. Decisión Final</h4>
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                                
+                                <div class="segmented-control" style="width: 100%; max-width: 400px; margin-bottom: 24px;">
+                                    <input type="radio" name="res" id="res-aprobado" checked>
+                                    <label for="res-aprobado" class="seg-aprobado"><i class="ph ph-check-circle"></i> Aprobado</label>
+                                    
+                                    <input type="radio" name="res" id="res-condicionado">
+                                    <label for="res-condicionado" class="seg-condicionado"><i class="ph ph-warning-circle"></i> Condicionado</label>
+                                    
+                                    <input type="radio" name="res" id="res-rechazado">
+                                    <label for="res-rechazado" class="seg-rechazado"><i class="ph ph-x-circle"></i> Rechazado</label>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--color-border); padding-top: 24px; margin-top: 16px;">
+                                <button class="btn-secondary" onclick="app.setStep('insp', 2)"><i class="ph ph-arrow-left"></i> Atrás</button>
+                                <div style="display: flex; gap: 16px;">
+                                    <button class="btn-secondary" onclick="app.navigate('dashboard')">Cancelar</button>
+                                    <button class="btn-primary" onclick="app.processAction(this, 'Inspección firmada digitalmente', 'dashboard', 'Firmando...')">Firmar y Emitir</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Marbete View -->
+
+            <section id="marbete" class="view">
+                <header class="view-header">
+                    <div class="breadcrumbs">Inicio <span>/</span> Marbete</div>
+                    <h2 class="page-title text-gradient">Marbete Digital</h2>
+                    <p class="text-muted">Certificación criptográfica de inspección vehicular.</p>
+                </header>
+
+                <div class="bento-grid">
+                    <div class="bento-item surface span-12" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px; perspective: 1000px;">
+                        
+                        <!-- 3D Wallet Container -->
+                        <div class="wallet-container">
+                            <div class="wallet-card" id="marbeteCard">
+                                <div class="glare" id="marbeteGlare"></div>
+                                <div class="wallet-card-content">
+                                    
+                                    <div class="wallet-header">
+                                        <div class="wallet-logo-circle">
+                                            <img src="../Prototipo/Gemini_Generated_Image_pjlf84pjlf84pjlf-removebg-preview.png" onerror="this.onerror=null; this.src='logo.png';" alt="Logo">
+                                        </div>
+                                        <h3 class="wallet-year">2026 - 2027</h3>
+                                    </div>
+                                    
+                                    <div class="wallet-body">
+                                        <h2 class="mono-text text-gradient">A345678</h2>
+                                        <div class="qr-safe-zone">
+                                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://ecorevisionrd.com" alt="QR Code" style="width: 100px; height: 100px;">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="wallet-footer">
+                                        <div class="wallet-validity">
+                                            <span class="label">VÁLIDO HASTA</span>
+                                            <span class="value">28/10/2027</span>
+                                        </div>
+                                        <i class="ph ph-check-circle check-icon"></i>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 16px; margin-top: 48px; z-index: 10;">
+                            <button class="btn-secondary" onclick="app.navigate('dashboard')">Volver al Inicio</button>
+                            <button class="btn-primary" style="box-shadow: 0 8px 16px var(--color-accent-glow);"><i class="ph ph-download-simple"></i> Agregar a Wallet</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Perfil View -->
+            <section id="perfil" class="view">
+                <header class="view-header">
+                    <div class="breadcrumbs">Inicio <span>/</span> Perfil</div>
+                    <h2 class="page-title text-gradient">Mi Perfil</h2>
+                    <p class="text-muted">Gestiona tus credenciales y configuración.</p>
+                </header>
+                
+                <div class="bento-grid">
+                    <div class="bento-item surface span-4" style="text-align: center; padding: 48px 24px;">
+                        <div class="avatar" style="width: 120px; height: 120px; font-size: 3rem; margin: 0 auto var(--space-3) auto; padding: 0;">
+                            <img src="https://i.pravatar.cc/150?img=11" alt="Carlos Perez" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        </div>
+                        <h3>Carlos Perez</h3>
+                        <p class="text-muted" style="margin-bottom: 24px;">carlos.perez@email.com</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <button class="btn-secondary" style="width: 100%;"><i class="ph ph-camera"></i> Cambiar Foto</button>
+                            <button class="btn-secondary" style="width: 100%; border-color: var(--color-danger); color: var(--color-danger);" onclick="app.logout()"><i class="ph ph-sign-out"></i> Cerrar Sesión</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bento-item surface span-8">
+                        <h3 style="border-bottom: 1px solid var(--color-border); padding-bottom: 12px; margin-bottom: 24px;">Datos Personales</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <div class="form-group">
+                                <label>Nombre Completo</label>
+                                <input type="text" class="input-modern" value="Carlos Perez" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Cédula</label>
+                                <input type="text" class="input-modern" value="001-XXXXXXX-1" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <input type="text" class="input-modern" value="809-555-5555">
+                            </div>
+                            <div class="form-group">
+                                <label>Dirección</label>
+                                <input type="text" class="input-modern" value="Santo Domingo, D.N.">
+                            </div>
+                        </div>
+                        
+                        <h3 style="border-bottom: 1px solid var(--color-border); padding-bottom: 12px; margin-top: 32px; margin-bottom: 24px;">Seguridad</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h4>Contraseña de Acceso</h4>
+                                <p class="text-muted" style="font-size: 0.85rem;">Actualizada por última vez hace 3 meses</p>
+                            </div>
+                            <button class="btn-secondary">Actualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REGISTRO (CU-01) -->
+            <section id="registro" class="view">
+                <header class="view-header">
+                    <div class="breadcrumbs">Inicio <span>/</span> Crear Cuenta</div>
+                    <h2 class="page-title text-gradient">Registro de Usuario</h2>
+                    <p class="text-muted">Crea tu cuenta para acceder al sistema EcoRevisión RD.</p>
+                </header>
+                <div class="bento-grid">
+                    <div class="bento-item surface span-12">
+                        <h3 style="border-bottom: 1px solid var(--color-border); padding-bottom: 12px; margin-bottom: 24px;"><i class="ph ph-user-plus" style="color: var(--color-accent);"></i> Información Personal</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <div class="form-group"><label>Nombre Completo</label><input type="text" class="input-modern" placeholder="Ej. Carlos Perez"></div>
+                            <div class="form-group"><label>Cédula / Pasaporte</label><input type="text" class="input-modern" placeholder="000-0000000-0"></div>
+                            <div class="form-group"><label>Correo Electrónico</label><input type="email" class="input-modern" placeholder="correo@email.com"></div>
+                            <div class="form-group"><label>Teléfono</label><input type="tel" class="input-modern" placeholder="809-555-0000"></div>
+                            <div class="form-group"><label>Contraseña</label><input type="password" class="input-modern" placeholder="Mínimo 8 caracteres"></div>
+                            <div class="form-group"><label>Confirmar Contraseña</label><input type="password" class="input-modern" placeholder="Repetir contraseña"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--color-border);">
+                            <a href="javascript:void(0)" onclick="app.navigate('login')" class="text-muted" style="font-size: 0.9rem; text-decoration: none;"><i class="ph ph-arrow-left"></i> Ya tengo cuenta</a>
+                            <button class="btn-primary" onclick="app.showToast('Cuenta creada. Bienvenido a EcoRevisión!', 'success'); app.navigate('dashboard');"><i class="ph ph-check-circle"></i> Crear Cuenta</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PAGOS (CU-11 / CU-12) -->
+            <section id="pagos" class="view">
+                <header class="view-header">
+                    <div class="breadcrumbs">Inicio <span>/</span> Pagos</div>
+                    <h2 class="page-title text-gradient">Módulo de Pagos</h2>
+                    <p class="text-muted">Gestiona pagos de inspección, marbetes y servicios adicionales.</p>
+                </header>
+                <div class="bento-grid">
+                    <div class="bento-item surface span-4">
+                        <div class="stat-mini"><div style="flex:1;"><div class="stat-label">Total Pagado (2026)</div><div class="stat-value" style="color:var(--color-success);">RD$4,500</div><div style="margin-top:10px;height:4px;background:var(--color-border);border-radius:99px;overflow:hidden;"><div style="width:75%;height:100%;background:var(--color-success);border-radius:99px;"></div></div></div><div class="stat-mini-icon" style="color:var(--color-success);background:rgba(52,211,153,0.1);"><i class="ph ph-money"></i></div></div>
+                    </div>
+                    <div class="bento-item surface span-4">
+                        <div class="stat-mini"><div style="flex:1;"><div class="stat-label">Pagos Pendientes</div><div class="stat-value" style="color:var(--color-warning);">1</div><div style="margin-top:10px;height:4px;background:var(--color-border);border-radius:99px;overflow:hidden;"><div style="width:33%;height:100%;background:var(--color-warning);border-radius:99px;"></div></div></div><div class="stat-mini-icon" style="color:var(--color-warning);background:rgba(251,191,36,0.1);"><i class="ph ph-clock"></i></div></div>
+                    </div>
+                    <div class="bento-item surface span-4">
+                        <div class="stat-mini"><div style="flex:1;"><div class="stat-label">Próximo Vencimiento</div><div class="stat-value" style="font-size:1.4rem;color:var(--color-danger);">15 Jul</div></div><div class="stat-mini-icon" style="color:var(--color-danger);background:rgba(248,113,113,0.1);"><i class="ph ph-calendar-x"></i></div></div>
+                    </div>
+                    <div class="bento-item surface span-6">
+                        <h3 style="margin-bottom:20px;"><i class="ph ph-plus-circle" style="color:var(--color-accent);"></i> Nuevo Pago</h3>
+                        <div class="form-group"><label>Servicio</label><select class="input-modern"><option>Inspección Técnica Vehicular — RD$1,500</option><option>Renovación de Marbete — RD$800</option><option>Multa por Vencimiento — RD$2,200</option></select></div>
+                        <div class="form-group"><label>Vehículo</label><select class="input-modern"><option>Honda Civic 2022 — A345678</option><option>Toyota Hilux 2019 — L987654</option></select></div>
+                        <div class="form-group"><label>Método de Pago</label><select class="input-modern"><option>Tarjeta de Crédito/Débito</option><option>Transferencia Bancaria</option><option>Efectivo en Taller</option></select></div>
+                        <div style="background:var(--color-bg-body);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:16px;margin-bottom:20px;">
+                            <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span class="text-muted">Subtotal</span><span>RD$1,500.00</span></div>
+                            <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span class="text-muted">ITBIS (18%)</span><span>RD$270.00</span></div>
+                            <div style="display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem;border-top:1px solid var(--color-border);padding-top:8px;margin-top:8px;"><span>Total</span><span style="color:var(--color-accent);">RD$1,770.00</span></div>
+                        </div>
+                        <button class="btn-primary" style="width:100%;" onclick="app.showToast('Pago procesado. Recibo enviado al correo.', 'success');"><i class="ph ph-lock"></i> Procesar Pago Seguro</button>
+                    </div>
+                    <div class="bento-item surface span-6">
+                        <h3 style="margin-bottom:20px;"><i class="ph ph-clock-counter-clockwise" style="color:var(--color-accent);"></i> Historial de Pagos</h3>
+                        <div style="display:flex;flex-direction:column;gap:12px;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--color-bg-body);border-radius:var(--radius-sm);border:1px solid var(--color-border);">
+                                <div><div style="font-weight:600;">Inspección ITV — Civic</div><div class="text-muted" style="font-size:0.8rem;">15 Jun 2026</div></div>
+                                <div style="text-align:right;"><div style="font-weight:700;color:var(--color-success);">RD$1,770</div><span class="status-badge success">Pagado</span></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--color-bg-body);border-radius:var(--radius-sm);border:1px solid var(--color-border);">
+                                <div><div style="font-weight:600;">Renovación Marbete — Civic</div><div class="text-muted" style="font-size:0.8rem;">10 Ene 2026</div></div>
+                                <div style="text-align:right;"><div style="font-weight:700;color:var(--color-success);">RD$944</div><span class="status-badge success">Pagado</span></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:rgba(251,191,36,0.05);border-radius:var(--radius-sm);border:1px solid rgba(251,191,36,0.2);">
+                                <div><div style="font-weight:600;">Inspección ITV — Hilux</div><div class="text-muted" style="font-size:0.8rem;">Pendiente de pago</div></div>
+                                <div style="text-align:right;"><div style="font-weight:700;color:var(--color-warning);">RD$1,770</div><span class="status-badge warning">Pendiente</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HISTORIAL (CU-10) -->
+            <section id="historial" class="view">
+                <header class="view-header">
+                    <div class="breadcrumbs">Inicio <span>/</span> Historial</div>
+                    <h2 class="page-title text-gradient">Historial de Inspecciones</h2>
+                    <p class="text-muted">Consulta el historial técnico completo de tus vehículos.</p>
+                </header>
+                <div class="bento-grid">
+                    <div class="bento-item surface span-12">
+                        <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;">
+                            <div class="form-group" style="flex:1;min-width:180px;margin-bottom:0;"><label>Placa / VIN</label><input type="text" class="input-modern" placeholder="Ej. A345678"></div>
+                            <div class="form-group" style="flex:1;min-width:160px;margin-bottom:0;"><label>Vehículo</label><select class="input-modern"><option>Todos</option><option>Honda Civic 2022</option><option>Toyota Hilux 2019</option></select></div>
+                            <div class="form-group" style="flex:1;min-width:140px;margin-bottom:0;"><label>Desde</label><input type="date" class="input-modern" value="2025-01-01"></div>
+                            <div class="form-group" style="flex:1;min-width:140px;margin-bottom:0;"><label>Hasta</label><input type="date" class="input-modern" value="2026-12-31"></div>
+                            <button class="btn-primary" style="height:50px;margin-bottom:0;"><i class="ph ph-magnifying-glass"></i> Buscar</button>
+                        </div>
+                    </div>
+                    <div class="bento-item surface span-12">
+                        <h3 style="margin-bottom:20px;">Resultados</h3>
+                        <div style="display:flex;flex-direction:column;gap:16px;">
+                            <div style="border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;">
+                                <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:var(--color-bg-elevated);">
+                                    <div style="display:flex;gap:16px;align-items:center;">
+                                        <div style="width:64px;height:40px;border-radius:6px;overflow:hidden;background:var(--color-bg-body);"><img src="civic.jpg" style="width:100%;height:100%;object-fit:contain;"></div>
+                                        <div><div style="font-weight:600;">Honda Civic 2022 — A345678</div><div class="text-muted" style="font-size:0.8rem;">15 Jun 2026 • AutoCentro Nacional</div></div>
+                                    </div>
+                                    <span class="status-badge success">APROBADO</span>
+                                </div>
+                                <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-top:1px solid var(--color-border);">
+                                    <div style="padding:12px 20px;border-right:1px solid var(--color-border);"><div class="text-muted" style="font-size:0.75rem;">Inspector</div><div style="font-weight:500;">Ing. J. Rodríguez</div></div>
+                                    <div style="padding:12px 20px;border-right:1px solid var(--color-border);"><div class="text-muted" style="font-size:0.75rem;">Emisiones CO</div><div style="font-weight:500;color:var(--color-success);">0.24% ✓</div></div>
+                                    <div style="padding:12px 20px;border-right:1px solid var(--color-border);"><div class="text-muted" style="font-size:0.75rem;">Frenos</div><div style="font-weight:500;color:var(--color-success);">82% ✓</div></div>
+                                    <div style="padding:12px 20px;"><div class="text-muted" style="font-size:0.75rem;">Próx. Insp.</div><div style="font-weight:500;">Jun 2027</div></div>
+                                </div>
+                            </div>
+                            <div style="border:1px solid rgba(251,191,36,0.3);border-radius:var(--radius-md);overflow:hidden;">
+                                <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:rgba(251,191,36,0.05);">
+                                    <div style="display:flex;gap:16px;align-items:center;">
+                                        <div style="width:64px;height:40px;border-radius:6px;overflow:hidden;"><img src="https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&q=80&w=150" style="width:100%;height:100%;object-fit:cover;"></div>
+                                        <div><div style="font-weight:600;">Toyota Hilux 2019 — L987654</div><div class="text-muted" style="font-size:0.8rem;">Sin inspección registrada</div></div>
+                                    </div>
+                                    <span class="status-badge warning">PENDIENTE</span>
+                                </div>
+                                <div style="padding:12px 20px;border-top:1px solid var(--color-border);color:var(--color-text-secondary);font-size:0.85rem;"><i class="ph ph-warning" style="color:var(--color-warning);"></i> Sin inspecciones. <a href="javascript:void(0)" onclick="app.navigate('reservas')" style="color:var(--color-accent);text-decoration:none;">Agendar ahora →</a></div>
+                            </div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--color-border);">
+                            <span class="text-muted" style="font-size:0.85rem;">2 registros encontrados</span>
+                            <button class="btn-secondary" style="padding:8px 16px;font-size:0.85rem;"><i class="ph ph-download-simple"></i> Descargar Informe</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    
+    <!-- Theme Toggle FAB -->
+    <button id="themeToggle" class="fab-theme" title="Cambiar Tema">
+        <i class="ph ph-moon" id="themeIcon"></i>
+    </button>
+    <script src="script.js"></script>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="mobile-menu-overlay">
+        <div class="mobile-menu-content surface">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 16px; margin-bottom: 16px;">
+                <h3 style="margin: 0;">Menú Principal</h3>
+                <button class="btn-icon" onclick="app.closeMobileMenu()" style="width: 36px; height: 36px; background: var(--color-bg-body); border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="ph ph-x" style="font-size: 1.2rem;"></i></button>
+            </div>
+            
+            <div class="user-profile" onclick="app.navigate('perfil'); app.closeMobileMenu()" style="margin-bottom: 24px; background: var(--color-bg-body); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+                <div class="avatar"><i class="ph ph-user text-muted"></i></div>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="font-size: 1rem; font-weight: 500;">Carlos Perez</span>
+                    <span style="font-size: 0.8rem; color: var(--color-text-secondary);">carlos.perez@email.com</span>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                
+                <button class="mobile-menu-item" onclick="document.getElementById('themeToggle').click(); app.closeMobileMenu()"><i id="mobileThemeIcon" class="ph ph-moon"></i> Cambiar Tema</button>
+                <button class="mobile-menu-item mobile-admin-only" onclick="app.navigate('admin-dashboard'); app.closeMobileMenu()"><i class="ph ph-squares-four"></i> Panel Admin</button>
+                <button class="mobile-menu-item mobile-admin-only" onclick="app.navigate('admin-inspecciones'); app.closeMobileMenu()"><i class="ph ph-clipboard-text"></i> Supervisión ITV</button>
+                <button class="mobile-menu-item mobile-user-only" onclick="app.navigate('pagos'); app.closeMobileMenu()"><i class="ph ph-money"></i> Pagos</button>
+                <button class="mobile-menu-item mobile-user-only" onclick="app.navigate('historial'); app.closeMobileMenu()"><i class="ph ph-clock-counter-clockwise"></i> Historial de Inspecciones</button>
+                <button class="mobile-menu-item" onclick="app.navigate('perfil'); app.closeMobileMenu()"><i class="ph ph-user-gear"></i> Editar Perfil</button>
+                <button class="mobile-menu-item" onclick="app.logout(); app.closeMobileMenu()" style="color: var(--color-danger);"><i class="ph ph-sign-out"></i> Cerrar Sesión</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add Vehicle Modal -->
+    <div id="add-vehicle-modal" class="modal-overlay">
+        <div class="modal-content surface">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 16px; margin-bottom: 16px;">
+                <h3 style="margin: 0; display: flex; align-items: center; gap: 8px;"><i class="ph ph-car"></i> Añadir Vehículo</h3>
+                <button class="btn-icon" onclick="app.closeVehicleModal()" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--color-bg-body); border-radius: 50%;"><i class="ph ph-x"></i></button>
+            </div>
+            
+            <div class="form-group">
+                <label>Marca</label>
+                <input type="text" id="modal-veh-marca" class="input-modern" placeholder="Ej. Toyota">
+            </div>
+            <div class="form-group">
+                <label>Modelo</label>
+                <input type="text" id="modal-veh-modelo" class="input-modern" placeholder="Ej. Corolla 2021">
+            </div>
+            <div class="form-group">
+                <label>Placa</label>
+                <input type="text" id="modal-veh-placa" class="input-modern" placeholder="Ej. A123456" style="text-transform: uppercase;">
+            </div>
+            
+            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; border-top: 1px solid var(--color-border); padding-top: 16px;">
+                <button class="btn-secondary" onclick="app.closeVehicleModal()">Cancelar</button>
+                <button class="btn-primary" onclick="app.submitVehicleForm(this, 'Añadiendo...')">Guardar Vehículo</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180" role="img" aria-label="Vehículo azul EcoRevisión">
+  <rect width="320" height="180" rx="22" fill="#f8fafc"/>
+  <path d="M63 106c5-22 25-43 51-47h88c25 3 46 23 54 47h17c11 0 20 9 20 20v12H27v-12c0-11 9-20 20-20h16z" fill="#0f2745"/>
+  <path d="M103 69h96c18 3 34 18 42 36H76c6-17 15-29 27-36z" fill="#e2e8f0" opacity=".95"/>
+  <path d="M114 76h40v28H84c6-13 15-23 30-28zM164 76h33c16 4 28 15 36 28h-69V76z" fill="#132a46"/>
+  <path d="M39 113h242" stroke="#e8630a" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="91" cy="132" r="25" fill="#020617"/>
+  <circle cx="91" cy="132" r="11" fill="#94a3b8"/>
+  <circle cx="232" cy="132" r="25" fill="#020617"/>
+  <circle cx="232" cy="132" r="11" fill="#94a3b8"/>
+  <path d="M250 75l20 20 44-49" fill="none" stroke="#e8630a" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M134 44c15-20 43-20 60-34-3 28-22 46-61 49" fill="none" stroke="#0f2745" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
