@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Homework 02 - Heurísticas de Nielsen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @page { size: A3 landscape; margin: 0; }
+        :root {
+            --black:#0a0a0a; --white:#fff;
+            --c1:#FF90E8; --c2:#FFC900; --c3:#4ADE80; --c4:#60A5FA; --c5:#C084FC;
+            --c6:#FB923C; --c7:#22D3EE; --c8:#FB7185; --c9:#FDE047; --c10:#2DD4BF;
+        }
+        *{box-sizing:border-box;margin:0;padding:0;}
+        body{
+            font-family:'Archivo',sans-serif;
+            background:var(--black); color:var(--white);
+            width:100vw; height:100vh;
+            display:flex; flex-direction:column;
+            overflow:hidden;
+        }
+        body::before{
+            content:''; position:fixed; inset:0;
+            background-image:radial-gradient(rgba(255,255,255,0.09) 1px, transparent 1px);
+            background-size:22px 22px; pointer-events:none; z-index:0;
+        }
+
+        /* ── PAGE ── */
+        .page{ position:relative;z-index:1; flex:1; display:flex; flex-direction:column; padding:12px 16px 8px; overflow:hidden; }
+
+        /* ── TITLE ── */
+        .root-title{
+            align-self:center; margin-bottom:10px; flex-shrink:0;
+            background:var(--white); color:var(--black);
+            border:3px solid var(--black); padding:7px 30px;
+            box-shadow:6px 6px 0 var(--c2); transform:rotate(-0.4deg);
+        }
+        .root-title h1{ font-family:'Space Grotesk'; font-size:1.6rem; text-transform:uppercase; line-height:1; }
+
+        /* ── MAP GRID ── */
+        .map-grid{
+            flex:1; display:grid; min-height:0;
+            grid-template-columns: 1fr 110px 1fr;
+            grid-template-rows: repeat(5, 1fr);
+            gap:6px 0;
+        }
+
+        /* ── CENTER SPINE ── */
+        .spine{
+            grid-column:2; grid-row:1/6;
+            display:flex; flex-direction:column; align-items:center;
+            position:relative;
+        }
+        .spine-line{
+            position:absolute; top:0; bottom:0; left:50%; width:3px;
+            background:var(--white); transform:translateX(-50%);
+        }
+
+        /* ── CONNECTOR ROWS (hold the horizontal lines + badges) ── */
+        .conn-left, .conn-right{
+            display:flex; align-items:center;
+            position:relative;
+        }
+        .conn-left{ justify-content:flex-end; }
+        .conn-right{ justify-content:flex-start; }
+
+        .h-line{
+            flex:1; height:3px; background:var(--white);
+        }
+        .badge{
+            background:var(--white); color:var(--black);
+            border:1.5px solid var(--black);
+            padding:1px 6px; font-size:7.5px; font-weight:900;
+            text-transform:uppercase; white-space:nowrap;
+            box-shadow:1.5px 1.5px 0 var(--black); z-index:2;
+            flex-shrink:0;
+        }
+
+        /* Spine connector per row: left badge + v-dot + right badge */
+        .spine-row{
+            flex:1; display:flex; flex-direction:row; align-items:center;
+            justify-content:space-between; width:100%; position:relative; z-index:2;
+            gap:2px;
+        }
+        .spine-dot{
+            width:12px; height:12px; border-radius:50%;
+            background:var(--white); border:2px solid var(--black);
+            flex-shrink:0;
+        }
+
+        /* ── HEURISTIC CARDS ── */
+        .h-card{
+            background:var(--nc); color:var(--black);
+            border:2.5px solid var(--black);
+            padding:8px 9px 7px;
+            box-shadow:4px 4px 0 rgba(255,255,255,0.1);
+            display:flex; flex-direction:column;
+            position:relative; overflow:hidden;
+        }
+        .h-card .ghost{ position:absolute; bottom:-8px; right:2px; font-family:'Space Grotesk'; font-size:56px; font-weight:700; color:rgba(0,0,0,0.1); pointer-events:none; line-height:1; }
+        .card-top{ display:flex; align-items:flex-start; gap:7px; margin-bottom:4px; }
+        .c-icon{ width:25px; height:25px; flex-shrink:0; background:var(--black); color:var(--nc); border:1.5px solid var(--black); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; margin-top:1px; }
+        .c-num{ font-family:'Space Grotesk'; font-size:0.7rem; font-weight:700; opacity:0.6; }
+        .c-title{ font-family:'Space Grotesk'; font-size:0.78rem; text-transform:uppercase; line-height:1.15; font-weight:700; }
+        .c-desc{ font-size:0.64rem; font-weight:600; line-height:1.2; flex-grow:1; margin-bottom:5px; }
+        .c-example{ background:var(--black); color:var(--white); border:1.5px solid var(--black); padding:3px 6px; font-size:8px; font-family:monospace; display:flex; align-items:center; gap:5px; }
+        .c-example i{ color:var(--nc); font-size:10px; flex-shrink:0; }
+        .ex-label{ font-size:6.5px; font-weight:900; text-transform:uppercase; color:var(--nc); display:block; }
+
+        /* ── APA FOOTER ── */
+        .apa{
+            background:var(--c2); color:var(--black); border:2.5px solid var(--black);
+            padding:6px 14px; margin-top:8px; flex-shrink:0;
+            display:flex; gap:20px; align-items:flex-start; font-size:8px; font-weight:600; z-index:1;
+        }
+        .apa-title{ font-family:'Space Grotesk'; font-size:0.75rem; text-transform:uppercase; white-space:nowrap; margin-top:1px; flex-shrink:0; }
+        .apa p{ padding-left:13px; text-indent:-13px; line-height:1.4; margin-bottom:2px; }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <div class="root-title"><h1>Las 10 Heurísticas de Usabilidad</h1></div>
+
+    <div class="map-grid">
+
+        <!-- ══════════ ROW 1 ══════════ -->
+        <!-- LEFT: 01 -->
+        <div class="h-card" style="--nc:var(--c1);">
+            <span class="ghost">01</span>
+            <div class="card-top">
+                <div class="c-icon"><i class="fa-solid fa-eye"></i></div>
+                <div>
+                    <div class="c-num">01</div>
+                    <div class="c-title">Visibilidad del Estado del Sistema</div>
+                </div>
+            </div>
+            <p class="c-desc">El sistema siempre debe mantener informados a los usuarios sobre lo que ocurre mediante retroalimentación apropiada y en tiempo oportuno.</p>
+            <div class="c-example"><i class="fa-solid fa-bars-progress"></i><div><span class="ex-label">Caso de uso</span>Barra de progreso al 75% durante descarga</div></div>
+        </div>
+
+        <!-- SPINE ROW 1 -->
+        <div class="spine" style="grid-row:1;">
+            <div class="spine-line"></div>
+            <div class="spine-row">
+                <div class="badge">define</div>
+                <div class="spine-dot"></div>
+                <div class="badge">promueve</div>
+            </div>
+        </div>
+
+        <!-- RIGHT: 06 -->
+        <div class="h-card" style="--nc:var(--c6);">
+            <span class="ghost">06</span>
+            <div class="card-top">
+                <div class="c-icon"><i class="fa-solid fa-brain"></i></div>
+                <div>
+                    <div class="c-num">06</div>
+                    <div class="c-title">Reconocimiento en lugar de Recuerdo</div>
+                </div>
+            </div>
+            <p class="c-desc">Minimizar la carga de memoria haciendo visibles objetos y opciones. Es mejor reconocer algo que tener que recordarlo de la memoria.</p>
+            <div class="c-example"><i class="fa-solid fa-clock-rotate-left"></i><div><span class="ex-label">Caso de uso</span>Historial de búsquedas visible al hacer clic</div></div>
+        </div>
+
+        <!-- ══════════ ROW 2 ══════════ -->
+        <div class="h-card" style="--nc:var(--c2);">
+            <span class="ghost">02</span>
+            <div class="card-top">
+                <div class="c-icon"><i class="fa-solid fa-language"></i></div>
+                <div>
+                    <div class="c-num">02</div>
+                    <div class="c-title">Coincidencia con el Mundo Real</div>
+                </div>
+            </div>
+            <p class="c-desc">El sistema debe hablar el idioma del usuario con palabras y conceptos familiares de su mundo real, no con terminología técnica interna del sistema.</p>
+            <div class="c-example"><i class="fa-solid fa-cart-shopping"></i><div><span class="ex-label">Caso de uso</span>Icono de carrito en tiendas en línea</div></div>
+        </div>
+
+        <div class="spine" style="grid-row:2;">
+            <div class="spine-line"></div>
+            <div class="spine-row">
+                <div class="badge">abarca</div>
+                <div class="spine-dot"></div>
+                <div class="badge">facilita</div>
+            </div>
+        </div>
+
+        <div class="h-card" style="--nc:var(--c7);">
+            <span class="ghost">07</span>
+            <div class="card-top">
+                <div class="c-icon"><i class="fa-solid fa-bolt"></i></div>
+                <div>
+                    <div class="c-num">07</div>
+                    <div class="c-title">Flexibilidad y Eficiencia de Uso</div>
+                </div>
+            </div>
+            <p class="c-desc">Los aceleradores, invisibles para novatos, mejoran la interacción de expertos. Permitir personalizar acciones frecuentes para distintos niveles de usuario.</p>
+            <div class="c-example"><i class="fa-regular fa-keyboard"></i><div><span class="ex-label">Caso de uso</span>Atajos de teclado Ctrl+C / Ctrl+Z</div></div>
+        </div>
+
+        <!-- ══════════ ROW 3 ══════════ -->
+        <div class="h-card" style="--nc:var(--c3);">
+            <span class="ghost">03</span>
+            <div class="card-top">
+                <div class="c-icon"><i class="fa-solid fa-person-walking-arrow-loop-left"></i></div>
+                <div>
+                    <div class="c-num">03</div>
+                    <div class="c-title">Control y Libertad del Usuario</div>
+                </div>
+            </div>
+            <p class="c-desc">Los usuarios cometen errores y necesitan salidas de emergencia claramente marcadas para abandonar estados no deseados sin largas secuencias de pasos.</p>
+            <div class="c-example"><i class="fa-solid fa-rotate-left"></i><div><span class="ex-label">Caso de uso</span>Botón "Deshacer" en procesadores de texto</div></div>
+        </div>
+
+        <div class="spine" style="grid-row:3;">
+            <div class="spine-line"></div>
+            <div class="spine-row">
+                <div class="badge">incluye</div>
+                <div class="spine-dot"></div>
+                <div class="badge">sugiere</div>
+            </div>
+        </div>
+
+        <div class="h-card" style="--nc:var(--c8);">
+            <span class="ghost">08</span>
+            <div class="card-top">
+                <div class="c-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <div>
+                    <div class="c-num">08</div>
+                    <div class="c-title">Estética y Diseño Minimalista</div>
+                </div>
+            </div>
+            <p class="c-desc">Los diálogos no deben contener información irrelevante. Cada unidad extra compite con las relevantes y reduce la visibilidad de lo realmente importante.</p>
+            <div class="c-example"><i class="fa-brands fa-google"></i><div><span class="ex-label">Caso de uso</span>Inicio de Google: solo la barra de búsqueda</div></div>
+        </div>
+
+        <!-- ══════════ ROW 4 ══════════ -->
+        <div class="h-card" style="--nc:var(--c4);">
+            <span class="ghost">04</span>
+            <div class="card-top">
+                <div class="c-icon"><i class="fa-solid fa-clone"></i></div>
+                <div>
+                    <div class="c-num">04</div>
+                    <div class="c-title">Consistencia y Estándares</div>
+                </div>
+            </div>
+            <p class="c-desc">Los usuarios no deben preguntarse si distintas palabras o acciones significan lo mismo. Seguir las convenciones de la plataforma evita la ambigüedad.</p>
+            <div class="c-example"><i class="fa-solid fa-right-from-bracket"></i><div><span class="ex-label">Caso de uso</span>"Logout" siempre en la esquina superior derecha</div></div>
+        </div>
+
+        <div class="spine" style="grid-row:4;">
+            <div class="spine-line"></div>
+            <div class="spine-row">
+                <div class="badge">establece</div>
+                <div class="spine-dot"></div>
+                <div class="badge">permite</div>
+            </div>
+        </div>
+
+        <div class="h-card" style="--nc:var(--c9);">
+            <span class="ghost">09</span>
+            <div class="card-top">
+                <div class="c-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div>
+                    <div class="c-num">09</div>
+                    <div class="c-title">Ayudar a Reconocer y Recuperarse de Errores</div>
+                </div>
+            </div>
+            <p class="c-desc">Los mensajes de error deben expresarse en lenguaje claro, indicar el problema con precisión y sugerir una solución constructiva sin tecnicismos.</p>
+            <div class="c-example"><i class="fa-solid fa-bug"></i><div><span class="ex-label">Caso de uso</span>Página 404 con enlace de retorno al inicio</div></div>
+        </div>
+
+        <!-- ══════════ ROW 5 ══════════ -->
+        <div class="h-card" style="--nc:var(--c5);">
+            <span class="ghost">05</span>
+            <div class="card-top">
+                <div class="c-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <div>
+                    <div class="c-num">05</div>
+                    <div class="c-title">Prevención de Errores</div>
+                </div>
+            </div>
+            <p class="c-desc">Mejor que los mensajes de error es un diseño cuidadoso que prevenga que los problemas ocurran. Eliminar condiciones propensas a error o confirmar acciones.</p>
+            <div class="c-example"><i class="fa-solid fa-paper-plane"></i><div><span class="ex-label">Caso de uso</span>Botón "Enviar" inactivo si hay campos vacíos</div></div>
+        </div>
+
+        <div class="spine" style="grid-row:5;">
+            <div class="spine-line"></div>
+            <div class="spine-row">
+                <div class="badge">requiere</div>
+                <div class="spine-dot"></div>
+                <div class="badge">ofrece</div>
+            </div>
+        </div>
+
+        <div class="h-card" style="--nc:var(--c10);">
+            <span class="ghost">10</span>
+            <div class="card-top">
+                <div class="c-icon"><i class="fa-solid fa-book-open"></i></div>
+                <div>
+                    <div class="c-num">10</div>
+                    <div class="c-title">Ayuda y Documentación</div>
+                </div>
+            </div>
+            <p class="c-desc">Aunque lo ideal es no requerir documentación, puede ser necesario proveer ayuda fácil de buscar, centrada en la tarea del usuario y con pasos concretos.</p>
+            <div class="c-example"><i class="fa-solid fa-circle-question"></i><div><span class="ex-label">Caso de uso</span>Tooltips contextuales y sección de preguntas FAQ</div></div>
+        </div>
+
+    </div><!-- /map-grid -->
+
+    <!-- APA 7 -->
+    <div class="apa">
+        <div class="apa-title">Referencias<br>Bibliográficas</div>
+        <div>
+            <p>NNGroup. (30 de enero de 2024). <em>Diez heurísticas de usabilidad para el diseño de interfaces de usuario</em>. https://www.nngroup.com/articles/ten-usability-heuristics/</p>
+            <p>Canal NNGroup. (26 de julio de 2019). <em>Usabilidad Heurística</em> [Archivo de Vídeo]. YouTube. https://youtu.be/cTtc90jCULU?feature=shared</p>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
