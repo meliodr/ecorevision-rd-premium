@@ -2084,3 +2084,96 @@ body.preview-mobile #sidebar:not(.hidden) {
         border-radius: 0 !important;
     }
 }
+
+/* =========================================================
+   FIX FINAL MOBILE — EcoRevisión RD
+   ========================================================= */
+
+/* En móvil no debe aparecer el botón flotante de tema */
+body.preview-mobile #themeToggle,
+body.preview-mobile .fab-theme,
+body.preview-mobile .theme-fab {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Todo dentro del marco móvil */
+body.preview-mobile #app,
+body.preview-mobile .app {
+  overflow: hidden !important;
+  position: relative !important;
+  isolation: isolate !important;
+}
+
+/* Más espacio inferior para evitar que la barra tape contenido */
+body.preview-mobile #main-content,
+body.preview-mobile #main,
+body.preview-mobile main {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding-bottom: 220px !important;
+}
+
+/* Inspección necesita más aire porque es la pantalla más larga */
+body.preview-mobile #inspeccion,
+body.preview-mobile section#inspeccion.view,
+body.preview-mobile section#inspeccion.view.active {
+  padding-top: 30px !important;
+  padding-bottom: 260px !important;
+}
+
+body.preview-mobile #insp-step-1,
+body.preview-mobile #insp-step-2,
+body.preview-mobile #insp-step-3 {
+  padding-bottom: 210px !important;
+}
+
+/* La última tarjeta no debe quedar escondida detrás del menú inferior */
+body.preview-mobile #inspeccion > *:last-child,
+body.preview-mobile #inspeccion .bento-item:last-child,
+body.preview-mobile #inspeccion .card:last-child,
+body.preview-mobile #inspeccion .surface:last-child {
+  margin-bottom: 190px !important;
+}
+
+/* Barra inferior pegada abajo */
+body.preview-mobile #sidebar:not(.hidden),
+body.preview-mobile .sidebar:not(.hidden) {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  top: auto !important;
+  height: 82px !important;
+  z-index: 9999 !important;
+  transform: none !important;
+}
+
+/* Menú, modal y notificaciones dentro del móvil */
+body.preview-mobile #mobile-menu,
+body.preview-mobile #add-vehicle-modal,
+body.preview-mobile .mobile-menu-overlay,
+body.preview-mobile .modal-overlay,
+body.preview-mobile #menu,
+body.preview-mobile #modal {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+
+body.preview-mobile #toast-container,
+body.preview-mobile .toast-container,
+body.preview-mobile #toastWrap,
+body.preview-mobile .toast-wrap {
+  position: absolute !important;
+  left: 14px !important;
+  right: 14px !important;
+  bottom: 96px !important;
+  top: auto !important;
+  width: auto !important;
+  max-width: none !important;
+}
