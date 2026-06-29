@@ -1049,38 +1049,49 @@
 </body>
 </html>
 
-<style id="mobile-final-fixes">
-/* Ocultar botón flotante de tema en vista móvil */
+<style id="ecorevision-final-mobile-fix">
+/* Ocultar tema flotante en vista móvil: ya está dentro del menú */
 body.preview-mobile .theme-fab,
 body.preview-mobile #themeToggle,
 body.preview-mobile .fab-theme {
   display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
-/* Asegurar que nada flotante salga del marco móvil */
+/* Mantener todo dentro del marco móvil */
 body.preview-mobile .app,
 body.preview-mobile #app {
   overflow: hidden !important;
+  position: relative !important;
   isolation: isolate !important;
 }
 
-/* Ajuste visual para que Inspección no quede pegada arriba */
+/* Scroll correcto dentro del móvil */
+body.preview-mobile main,
+body.preview-mobile #main,
+body.preview-mobile #main-content {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding-bottom: 170px !important;
+}
+
+/* Corrección especial para inspección */
 body.preview-mobile #inspeccion,
+body.preview-mobile section#inspeccion.view,
 body.preview-mobile section#inspeccion.view.active {
-  padding-top: 18px !important;
+  padding-top: 24px !important;
+  padding-bottom: 210px !important;
 }
 
-/* Espacio superior uniforme en todas las pantallas móviles */
-body.preview-mobile main {
-  padding-top: 28px !important;
+/* Que la última tarjeta de inspección no quede debajo del menú */
+body.preview-mobile #inspeccion > *:last-child,
+body.preview-mobile #inspeccion .card:last-child,
+body.preview-mobile #inspeccion .bento-item:last-child {
+  margin-bottom: 150px !important;
 }
 
-/* Evitar que el contenido se esconda detrás de la barra inferior */
-body.preview-mobile main {
-  padding-bottom: 118px !important;
-}
-
-/* Barra de navegación móvil pegada realmente abajo */
+/* Barra inferior pegada al bottom del mockup */
 body.preview-mobile .sidebar,
 body.preview-mobile #sidebar {
   position: absolute !important;
@@ -1088,20 +1099,21 @@ body.preview-mobile #sidebar {
   right: 0 !important;
   bottom: 0 !important;
   top: auto !important;
-  z-index: 30 !important;
+  height: 82px !important;
+  z-index: 9999 !important;
 }
 
-/* Menús, modales y notificaciones dentro del móvil */
+/* Menú, modal y notificaciones dentro del móvil */
 body.preview-mobile .mobile-menu,
 body.preview-mobile .modal,
 body.preview-mobile #menu,
-body.preview-mobile #modal {
+body.preview-mobile #modal,
+body.preview-mobile #mobile-menu,
+body.preview-mobile #add-vehicle-modal {
   position: absolute !important;
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
 }
 
 body.preview-mobile .toast-wrap,
@@ -1116,113 +1128,3 @@ body.preview-mobile #toast-container {
   max-width: none !important;
 }
 </style>
-
-<style id="fix-inspeccion-mobile-final">
-/* =========================================================
-   FIX FINAL INSPECCIÓN MÓVIL
-   Corrige contenido tapado por barra inferior.
-   ========================================================= */
-
-/* Ocultar definitivamente el botón flotante de tema en móvil */
-body.preview-mobile .theme-fab,
-body.preview-mobile #themeToggle,
-body.preview-mobile .fab-theme {
-  display: none !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
-
-/* El marco móvil no debe dejar elementos fuera */
-body.preview-mobile .app,
-body.preview-mobile #app {
-  overflow: hidden !important;
-  position: relative !important;
-}
-
-/* El contenido principal debe tener espacio real para la barra inferior */
-body.preview-mobile main,
-body.preview-mobile #main,
-body.preview-mobile #main-content {
-  padding-bottom: 180px !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-}
-
-/* Inspección necesita más aire abajo porque es una pantalla larga */
-body.preview-mobile #inspeccion,
-body.preview-mobile section#inspeccion.view,
-body.preview-mobile section#inspeccion.view.active {
-  padding-bottom: 190px !important;
-  margin-bottom: 0 !important;
-}
-
-/* Separación específica en la última tarjeta de inspección */
-body.preview-mobile #inspeccion .card:last-child,
-body.preview-mobile #inspeccion .bento-item:last-child,
-body.preview-mobile #inspeccion > *:last-child {
-  margin-bottom: 150px !important;
-}
-
-/* La barra inferior siempre queda pegada abajo del marco móvil */
-body.preview-mobile .sidebar,
-body.preview-mobile #sidebar {
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  top: auto !important;
-  height: 82px !important;
-  z-index: 9999 !important;
-  border-radius: 0 0 32px 32px !important;
-}
-
-/* Evitar que el indicador activo se salga hacia abajo */
-body.preview-mobile .nav button.active,
-body.preview-mobile .nav-link.active {
-  overflow: hidden !important;
-}
-
-/* Badge naranja de inspección dentro de la barra */
-body.preview-mobile .nav-badge,
-body.preview-mobile .badge-nav {
-  transform: none !important;
-  bottom: 6px !important;
-  top: auto !important;
-}
-
-/* Cuando el usuario esté en inspección, permitir más scroll visual */
-body.preview-mobile.inspection-screen main,
-body.preview-mobile.inspection-screen #main,
-body.preview-mobile.inspection-screen #main-content {
-  padding-bottom: 220px !important;
-}
-</style>
-
-<script id="fix-inspeccion-mobile-class">
-(function () {
-  function updateInspectionClass() {
-    var active = document.querySelector('.view.active');
-    var isInspection = active && active.id === 'inspeccion';
-    document.body.classList.toggle('inspection-screen', !!isInspection);
-  }
-
-  document.addEventListener('click', function () {
-    setTimeout(updateInspectionClass, 80);
-  });
-
-  window.addEventListener('load', function () {
-    updateInspectionClass();
-
-    var main = document.querySelector('main, #main, #main-content');
-    if (main) {
-      main.addEventListener('scroll', updateInspectionClass, { passive: true });
-    }
-  });
-
-  var oldPushState = history.pushState;
-  history.pushState = function () {
-    oldPushState.apply(history, arguments);
-    setTimeout(updateInspectionClass, 80);
-  };
-})();
-</script>
