@@ -2245,3 +2245,33 @@ body.preview-mobile .toast-container {
     border-radius: 0 !important;
   }
 }
+
+
+/* =========================================================
+   FIX NAV MÓVIL — quitar desalineación de inspección
+   ========================================================= */
+@media (max-width: 768px) {
+  .nav-link {
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .nav-link i {
+    display: block !important;
+    margin: 0 auto !important;
+    line-height: 1 !important;
+  }
+
+  .nav-link span {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    margin-top: 4px !important;
+  }
+
+  .nav-link .nav-badge {
+    top: 4px !important;
+    right: 10px !important;
+  }
+}
